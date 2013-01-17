@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# getdiff:
+#
+# A simple shell script to find the difference between the given
+# files, say, "foo/bar" and "foo/bar.orig". The output is a 
+# "diff -upN -U 2" context difference preceded by "Index: " and "===="
+# lines somewhat similar to that output by CVS. 
+#
+# This output can be treated as a patch against the original 
+# files (without the ".orig" suffix) to convert them to the modified 
+# files like this:
+#
+#     patch -p0 < output-from-this-script
+#
+# Author: Ranjit Mathew (rmathew@gmail.com)
+# Version: 1.1
+#
+
+if test -z "$1"; then
+  echo
+  echo USAGE: getdiff \[file1 \[file2 \[file3 ...\]\]\]
+  echo
+  exit 1
+fi
+
+for i in "$@"
+do
+  if [ ! -f "$i" ]
+  then
+    echo ERROR: File \"$i\" does not exist
+    exit 2;
+  fi
+
+  if [ ! -f "$i.orig" ]
+  then
+    echo ERROR: File \"$1.orig\" does not exist
+    exit 3;
+  fi
+done
+
+for i in "$@"
+do
+  if ! diff -q "$i.orig" "$i" >/dev/null
+  then
+    echo Index: "$i"
+    echo ===================================================================
+    NAME4SED=`echo $i | sed 's/\\//\\\\\\//g'`
+    diff -upN -U2 "$i.orig" "$i" | sed s/$NAME4SED\\.orig/$NAME4SED/g
+  fi
+done

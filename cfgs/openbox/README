@@ -1,0 +1,2 @@
+Configuration files for OpenBox.
+$HOME/.config/openbox is a symbolic-link to this directory.

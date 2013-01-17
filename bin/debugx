@@ -1,0 +1,39 @@
+#! /bin/sh
+
+# *** NOT WRITTEN BY ME - JUST BACKED UP. ***
+
+# Copyright 1999, 2000, 2001  Alexandre Oliva <oliva@lsd.ic.unicamp.br>
+
+# This script is Free Software, and it can be copied, distributed and
+# modified as defined in the GNU General Public License.  A copy of
+# its license can be downloaded from http://www.gnu.org/copyleft/gpl.html
+
+tmp=${TMPDIR-/tmp}/.debug$$
+mkdir "$tmp" || exit 1
+prog=$1; shift
+run=$1; shift
+fullprog=`$run ${1+"$@"} -print-prog-name="$prog"`
+if test ! -x "$fullprog"; then
+  echo $0: $run cannot find $prog >&2
+  exit 1
+fi
+cat > "$tmp/$prog" << EOF
+#! /bin/sh
+rm -rf "$tmp"
+case "\$@" in
+*[\"]*)
+  count=\$#
+  for arg
+  do
+    case \$arg in
+    *[\"]*) set x \${1+"\$@"} \`echo "\$arg" | sed 's,\(["]\),\\\\\\\\\\\\1,g'\`; shift;;
+    *) set x \${1+"\$@"} "\$arg"; shift;;
+    esac
+  done
+  shift \$count
+  ;;
+esac
+exec debug "$fullprog" \${1+"\$@"}
+EOF
+chmod +x "$tmp/$prog"
+exec $run -B"$tmp/" ${1+"$@"} -B"$tmp/"

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Configure Git.
+./configure --prefix=/usr/local/git --with-editor=/usr/bin/vim --without-tcltk

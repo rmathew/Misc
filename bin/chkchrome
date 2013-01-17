@@ -1,0 +1,110 @@
+#!/bin/bash
+
+# Check for an updated Google Chrome for Linux; download and extract
+# it, applying appropriate shared-library overrides. The method used
+# here is described in:
+#
+#   http://rmathew.blogspot.com/2009/11/google-chrome-on-slackware.html
+#
+
+# Change these variable definitions appropriately.
+CHR_WA_LIBS="$HOME/tmp/chrome-libs.tar.bz2"
+CHR_STG_DIR=/tmp/chrome_stage
+CHR_DEB_BASE="http://dl.google.com/linux/deb"
+# http://dl.google.com/dl/linux/direct/google-chrome-beta_current_i386.deb
+
+mkdir -p "$CHR_STG_DIR"
+if test "$?" != "0"
+then
+  echo ERROR: Could not create staging directory \"$CHR_STG_DIR\"!
+  exit 1
+fi
+
+cd "$CHR_STG_DIR"
+
+echo
+echo Checking packages meta-data...
+wget -q "$CHR_DEB_BASE"/dists/stable/main/binary-i386/Packages.gz
+if test "$?" != "0"
+then
+  echo ERROR: Could not download packages meta-data!
+  exit 1
+fi
+
+gunzip Packages.gz
+if test "$?" != "0"
+then
+  echo ERROR: Could not unpack packages meta-data!
+  exit 1
+fi
+
+CHR_VER=`grep ^Version: Packages | cut -f2 -d: | tr -d [:blank:]`
+echo
+echo Latest Google Chrome version is \"$CHR_VER\"
+
+CHR_URL="$CHR_DEB_BASE"/`grep ^Filename: Packages | cut -f2 -d: | tr -d [:blank:]`
+rm -f Packages
+
+echo
+echo Google Chrome download URL: \"$CHR_URL\"
+echo -n Download this version \(y/n\)?" "
+
+read RESPONSE
+if test "$RESPONSE" != "y"
+then
+  exit 0
+fi
+
+CHR_FILE=google_chrome_"$CHR_VER".deb
+echo Downloading Google Chrome...
+wget "$CHR_URL" -O "$CHR_FILE"
+
+if test "$?" != "0"
+then
+  echo ERROR: Could not download Google Chrome!
+  exit 1
+fi
+
+echo
+echo Extracting Google Chrome...
+ar -x "$CHR_FILE"
+if test "$?" != "0"
+then
+  echo ERROR: Could not extract archive \"$CHR_FILE\"!
+  exit 1
+fi
+
+if test ! -f "data.tar.lzma"
+then
+  echo ERROR: Could not locate \"data.tar.lzma\"!
+  exit 1
+fi
+
+7z x data.tar.lzma
+if test "$?" != "0"
+then
+  echo ERROR: Could not uncompress \"data.tar.lzma\"!
+  exit 1
+fi
+
+tar -xf data.tar
+if test "$?" != "0"
+then
+  echo ERROR: Could not expand \"data.tar\"!
+  exit 1
+fi
+
+cd ./opt/google/chrome
+if test -f "$CHR_WA_LIBS"
+then
+  echo
+  echo Expanding workaround hacks in \"$CHR_WA_LIBS\"...
+  tar -xf "$CHR_WA_LIBS"
+else
+  echo
+  echo Workaround hacks \"$CHR_WA_LIBS\" not present.
+fi
+
+echo
+echo Google Chrome "$CHR_VER" is in \"$PWD\"
+echo Done.

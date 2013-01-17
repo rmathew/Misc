@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Quick-and-dirty script to compact the SQLite databases used
+# by Firefox to improve its start-up times.
+
+SQLITE3=/usr/bin/sqlite3
+FF_PROFILE=$HOME/.mozilla/firefox/default.wla
+
+if test ! -x "$SQLITE3"
+then
+  echo ERROR: Could not execute \"$SQLITE3\"!
+  exit 1
+fi
+
+if test ! -d "$FF_PROFILE"
+then
+  echo ERROR: Could not locate Firefox profile folder \"$FF_PROFILE\".
+  exit 1
+fi
+
+cd "$FF_PROFILE"
+
+for i in *.sqlite
+do
+  echo -n "BEFORE: "
+  du -ks "$i"
+
+  "$SQLITE3" "$i" "VACUUM;"
+
+  echo -n " AFTER: "
+  du -ks "$i"
+done
+
+echo Done.

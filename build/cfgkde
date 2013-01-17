@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Configure KDE 3.5.x
+
+# WARNING: KDE takes *quite a while* to build.
+# (114 min for base; 74 min for lib; etc.)
+#
+# Tip #1: Use DO_NOT_COMPILE to omit programmes.
+# Tip #2: Use "make install-strip" to install stripped stuff.
+# Tip #3: Use CC/CXX set to "gcc/g++ -march=pentium3 -msse -pipe"
+
+./configure --prefix=/opt/kde --disable-static --enable-shared --enable-final --with-gnu-ld --with-alsa --disable-debug --disable-dependency-tracking --enable-new-ldflags --disable-profile

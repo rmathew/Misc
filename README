@@ -1,0 +1,11 @@
+Miscellaneous stuff that is version-controlled and that
+doesn't fit any where else.
+
+bin:
+  Scripts that go into the "bin" directory put into my $PATH.
+
+build:
+  Scripts to customize software I build from source.
+
+cfgs:
+  "Dot-files" and other configuration files.

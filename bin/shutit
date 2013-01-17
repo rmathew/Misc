@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# Show a dialog-box using gxmessage and shut-down/reboot as indicated.
+# Useful with OpenBox.
+#
+# Needs the following hopelessly-insecure line in the sudoers file to work:
+#   ALL     ALL=NOPASSWD:/sbin/shutdown
+
+if [ "$1" == "-r" ]
+then
+  DEFAULT_LABEL="Reboot"
+else
+  DEFAULT_LABEL="Shut Down"
+fi
+
+/usr/bin/gxmessage -buttons "Shut Down:0,Reboot:1,Cancel:2" \
+  -default "$DEFAULT_LABEL" -center -title "Confirm Action" \
+  "Are you really sure?"
+
+case "$?" in
+  0)
+    sudo /sbin/shutdown -h now
+    ;;
+  1)
+    sudo /sbin/shutdown -r now
+    ;;
+  2)
+    exit 0
+    ;;
+esac

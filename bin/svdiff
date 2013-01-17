@@ -1,0 +1,12 @@
+#!/bin/bash
+diff=/usr/bin/diff
+
+# Additional -F for .md files
+extra_args="-F^(define"
+
+# Do not pass multiple -c/-u options
+case "$1" in
+  -c*) exec ${diff} -U2 -pN ${extra_args} "$@" ;;
+  -u*) exec ${diff} -U2 -pN ${extra_args} "$@" ;;
+  *) exec ${diff} -U2 -pN ${extra_args} "$@" ;;
+esac

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Configure xine-lib.
+
+# NOTE: Can also be used to compile xine-ui (pass --disable-lirc 
+# --without-caca --without-aalib)
+#
+# NOTE: Install FAAD first.
+# NOTE: Might want to tweak configure for specific CPU (uses pentiumpro).
+# NOTE: Make sure XvMC is enabled and configured (/etc/X11/XvMCConfig).
+#
+# FIXME: VCD plug-in disabled due to scsi/scsi.h stupidity.
+
+XINE_PREFIX="/usr/local/xine"
+
+export CC="gcc -march=pentium3 -msse -fomit-frame-pointer -pipe -g0 -I""$XINE_PREFIX/include"
+export CXX="g++ -march=pentium3 -msse -fomit-frame-pointer -pipe -g0 -L""$XINE_PREFIX/lib"
+
+export PATH="$PATH:$XINE_PREFIX/bin"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$XINE_PREFIX/lib"
+export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$XINE_PREFIX/lib/pkgconfig"
+
+./configure --prefix="$XINE_PREFIX" \
+  --disable-nls --disable-debug --enable-shared --disable-static \
+  --with-external-libfaad --disable-aalib \
+  --with-alsa --disable-oss --without-arts --without-esound \
+  --with-real-codecs-path=/usr/local/w32codecs \
+  --with-w32-path=/usr/local/w32codecs --with-freetype --with-fontconfig \
+  --enable-antialiasing --with-gnu-ld --with-gnu-as \
+  --disable-dependency-tracking --enable-optimizations \
+  --with-xv-path=/usr/lib --with-xxmc-path=/usr/lib \
+  --with-xxmc-lib=XvMCNVIDIA --disable-vcd $*

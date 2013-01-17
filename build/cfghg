@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Configure and install Mercurial.
+
+HG_PREFIX=/usr/local/hg
+
+if [ -d "$HG_PREFIX" ]
+then
+  echo ERROR: \"$HG_PREFIX\" exists. Move it aside first.
+  exit 1
+fi
+
+export PYTHONPATH=/usr/lib/python2.7/site-packages
+export PYTHONPATH=$HG_PREFIX/lib/python2.7/site-packages:$PYTHONPATH
+
+make install PREFIX="$HG_PREFIX"
+
+SUCC_INSTALL="$?"
+if [ "$SUCC_INSTALL" == "0" ]
+then
+  cd "$HG_PREFIX"/share/man
+  find . -type f -exec gzip -9 -v \{\} \;
+  cd "$HG_PREFIX"/lib
+  find . -name "*.so" -exec strip \{\} \;
+  echo Done
+else
+  echo ERROR: \"make install\" did not succeed.
+  exit 1
+fi

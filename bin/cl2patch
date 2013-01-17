@@ -1,0 +1,247 @@
+#! /bin/sh
+
+# *** NOT WRITTEN BY ME - JUST BACKED UP. ***
+
+# cl2patch version 1.4
+
+# Copyright (C) 1998, 1999, 2000, 2002 Free Software Foundation
+
+# This script is Free Software, and it can be copied, distributed and
+# modified as defined in the GNU General Public License.  A copy of
+# its license can be downloaded from http://www.gnu.org/copyleft/gpl.html
+
+# Written by Alexandre Oliva <oliva@lsd.ic.unicamp.br>
+
+# usage: cl2patch [-D|-d DATE] [-r dir] [-a AUTHOR] -- \
+#            [ mypatch.diff ... | < mypatch.diff ] | \
+#        patch -p0
+
+# -D  --old-date      use old date format as default; [default: YYYY-MM-DD]
+# -d  --date=DATE     specify date for ChangeLog entries; [$DATE or now]
+# -a  --author=AUTHOR specify author name; [$AUTHOR or unknown]
+# -r  --rootdir=dir   create patch based on ChangeLog files exist in dir [.]
+# -v  --version       print version information
+# -h,-?  --help       print short or long help message
+
+# This script translates a patch with ChangeLog entries in text format
+# into one that appends these ChangeLog entries in the beginning of an
+# existing ChangeLog file.  It accepts some common formats of
+# submitting ChangeLog entries, like the ones below.  In particular,
+# it accepts the output of clcleanup.
+
+# for dir/ChangeLog:
+# 	* test: this is a test
+# Index: anotherdir/ChangeLog
+# 	* test: yet another test
+
+# The script identifies the beginning of ChangeLog entries with lines
+# such as `Index: [.../]ChangeLog' or `for [.../]ChangeLog', and its
+# end with another `Index:' or `for' line, or EOF.  Blank lines are
+# added in the beginning and in the end of the ChangeLog entry, if
+# necessary.
+
+# By default, the ChangeLog entries are given the current date as
+# their timestamp.  This default can be overridden by the environment
+# variable DATE, and then by the command-line switch `-d'.
+
+# If a root directory is specified (possibly in environment variable
+# ROOTDIR), existing ChangeLog files will be looked for within that
+# directory, the patch will be generated based on them, and some
+# effort will be made to use the same date format.  Otherwise, the
+# patches for ChangeLog files will be created in a way that GNU patch
+# is likely to be able to install.  Automatic detection of date format
+# depends on GNU date and GNU awk.
+
+# If the author name is not specified, the contents of the environment
+# variable AUTHOR will be used by default, or `unknown', if the
+# variable is undefined.  If the ChangeLog entry specifies an author
+# already, with a `from' or `by' line just after the beginning of the
+# ChangeLog entry, it will override the default value.  If the author
+# name ends up `unknown', a warning message will be printed in a way
+# that Emacs can parse as compiler-errors.
+
+name=cl2patch
+repeat="test $# -gt 0"
+while $repeat; do
+    case "$1" in
+    -d|--date)
+	shift
+	DATE="$1"
+	shift || { echo missing date >&2; exit 1; }
+	;;
+    --date=*)
+        DATE=`echo "$1" | sed 's/[^=]*=//'`
+	shift
+	;;
+    -D|--old-date)
+	shift
+	DATE=`date "+%a %b %e %T %Y" ${DATE+-d} ${DATE+"$DATE"}` ||
+	{ echo failed to get current date >&2; exit 1; }
+	;;
+    -r|--rootdir)
+	shift
+	ROOTDIR="$1"
+	shift || { echo missing root directory >&2; exit 1; }
+	;;
+    --rootdir=*)
+	ROOTDIR=`echo "$1" | sed 's/[^=]*=//'`
+	shift
+	;;
+    -a|--author)
+	shift
+	AUTHOR="$1"
+	shift || { echo missing author name >&2; exit 1; }
+	;;
+    --author=*)
+	AUTHOR=`echo "$1" | sed 's/[^=]*=//'`
+	shift
+	;;
+    -v|--version)
+	sed '/^# '$name' version /,/^# Written by/ { s/^# //; p; }; d' < $0
+	exit 0
+	;;
+    -\?|-h)
+	sed '/^# usage:/,/# -h/ { s/^# //; p; }; d' < $0 &&
+	echo
+	echo "run \`$name --help | more' for full usage"
+	exit 0
+	;;
+    --help)
+	sed '/^# '$name' version /,/^[^#]/ { /^[^#]/ d; s/^# //; p; }; d' < $0
+	exit 0
+	;;
+    --)
+	shift
+	repeat=false
+	;;
+    *)
+	repeat=false
+	;;
+    esac
+done
+SHORTDATE=`date "+%Y-%m-%d" ${DATE+-d} ${DATE+"$DATE"} 2>/dev/null` ||
+SHORTDATE="$DATE"
+LONGDATE=`date "+%a %b %e %T %Y" ${DATE+-d} ${DATE+"$DATE"} 2>/dev/null` ||
+LONGDATE="$DATE"
+if test x"${DATE+set}" != x"set"; then
+    : ${DATE=`date "+%Y-%m-%d"`} ||
+    { echo failed to get current date >&2; exit 1; }
+fi
+if test x"${AUTHOR+set}" != x"set"; then
+    AUTHOR="unknown"
+fi
+printpatch='
+    if (inchangelog > 0) {
+	if (lastblank == 0) { # insert a missing blank line at the end
+	    ++inchangelog;
+	    entry=entry "\n+";
+	}
+	print preamble; # now print the patch
+	print "@@ -1,1 +1," inchangelog+1 " @@" entry;
+	if (firstline[filename] != "") {
+	    print " " firstline[filename];
+	} else if (usablefirstline != 0)
+	    system("sed s/\\^/\\ /\\;1q < "shfilename);
+	else {
+	    print ""; # this blank line will not match,
+	    # but GNU patch will do The Right Thing (TM)
+	}
+	firstline[filename] = newfirstline;
+	if (author == "unknown") {
+	    warninglist[++ warning] = filename;
+	}
+    }
+'
+exec awk "
+BEGIN { date=\"$DATE\"; author=\"$AUTHOR\";
+	shortdate=\"$SHORTDATE\"; longdate=\"$LONGDATE\";
+	rootdir=\"$ROOTDIR\"; firstline[\"\"] = \"\";
+	} "'
+inchangelog != 0 && /^Index:/ {
+    '"$printpatch"'
+    inchangelog = 0;
+}
+/^(Index:|for ).*ChangeLog/ {
+    '"$printpatch"'
+    inchangelog=1; # start a new ChangeLog entry
+    filename=$2;
+    if (filename ~ /:$/) {
+	filename = substr(filename, 1, length(filename)-1);
+    }
+    preamble="--- " filename "\n+++ " filename;
+    if (rootdir != "") {
+	shfilename = "\"" rootdir "/" filename "\"";
+	usablefirstline=0;
+	if (system("test -f " shfilename) != 0) {
+	    thisdate=date;
+	} else if (system("sed 1q < "shfilename" | grep '"'^[0-9]'"' >/dev/null") == 0) {
+	    thisdate=shortdate; usablefirstline=1;
+	} else if (system("sed 1q < "shfilename" | grep '"'^[MTWFS]'"' >/dev/null") == 0) {
+	    thisdate=longdate; usablefirstline=1;
+	} else {
+	    thisdate=date;
+	}
+    } else {
+	thisdate=date;
+    }
+    entry="";
+    print "Index: " filename;
+    lastblank=0;
+    next;
+}
+inchangelog != 0 && /^(>?[Ff]rom|[Bb]y) .*<.*@.*>/ { # author name
+    author=$0;
+    while (author !~ /^ / && author !~ /^$/)
+	author=substr(author, 2);
+    while (author ~ /^ /)
+        author=substr(author, 2);
+    entry=entry "\n+" thisdate "  " author;
+    next;
+}
+# Ignore TAB-indented entries; assumed to be part of merges.
+inchangelog != 0 && /[^ ]  [A-Za-z].*<.*@.*>/ && ! /^[	]/ { # author name
+    author=$0;
+    while (author !~ /^  [A-Za-z].*<.*@.*>/)
+        author=substr(author, 2);
+    author=substr(author, 3);
+    entry=entry "\n+" thisdate "  " author;
+    next;
+}
+inchangelog != 0 && lastblank == 0 && /^[ 	]*$/ {
+# blank line in ChangeLog entry
+    ++inchangelog;
+    lastblank=1; # mark as blank
+    entry=entry "\n+";
+    next;
+}
+inchangelog != 0 && /^[ 	][ 	]*[^ 	]/ {
+# non-blank ChangeLog line; insert it
+    if (inchangelog == 1 && lastblank == 0) {
+    # insert a blank line if the first line is not blank
+	++inchangelog;
+	entry=entry "\n+";
+    }
+    ++inchangelog;
+    thisline=$0;
+    while (thisline ~ /^[ 	]/)
+	thisline=substr(thisline, 2);
+    entry=entry "\n+	" thisline;
+    lastblank=0;
+    next;
+}
+inchangelog != 0 {
+    ++inchangelog;
+    entry=entry "\n+" $0;
+    next;
+}
+# anything else should be copied literally
+{ print; }
+END { # just in case the ChangeLog entry is at the end of file
+    '"$printpatch"'
+    if (warning > 0) {
+	for (warning in warninglist) {
+	    print warninglist[warning]":"1": unknown author" | "cat >&2"
+	}
+    }
+}
+' ${1+"$@"}

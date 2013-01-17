@@ -1,0 +1,60 @@
+#! /bin/sh
+
+# *** NOT WRITTEN BY ME - JUST BACKED UP. ***
+
+# fixpatch version 2.0
+
+# Copyright (C) 2000, Free Software Foundation
+
+# This script is Free Software, and it can be copied, distributed and
+# modified as defined in the GNU General Public License.  A copy of
+# its license can be downloaded from http://www.gnu.org/copyleft/gpl.html
+
+# By Alexandre Oliva <aoliva@redhat.com>
+# based on Perl script by Jason Merrill <jason@cygnus.com>
+
+# This script adjusts cvs diffs so that the old and new filenames are
+# identical to the Index entry.  It's useful when the CVS server
+# outputs only the basename of the file in there, since `patch' gives
+# precedence to these fields, instead of Index, so it ends up applying
+# patches in the wrong file.  This shouldn't be needed for recent CVS
+# servers, that already include pathname in diffs, but there shouldn't
+# be a problem in running it unconditionally.
+
+# If no files are specified in the command line, fixpatch reads from
+# the standard input.  In all cases, the fixed patch files go to the
+# standard output.
+
+# usage: fixpatch [-h] [-v] [file ...]
+
+# -v      --version     print version information
+# -h,-?   --help        print short or long help message
+
+name=fixpatch
+
+case "$1" in
+    -v|--version)
+	sed '/^# '$name' version /,/^# Heavily modified by/ { s/^# //; p; }; d' < $0
+	exit 0
+	;;
+    -\?|-h)
+	sed '/^# usage:/,/# -h/ { s/^# //; p; }; d' < $0 &&
+	echo
+	echo "run \`$name --help | more' for full usage"
+	exit 0
+	;;
+    --help)
+	sed '/^# '$name' version /,/^[^#]/ { /^[^#]/ d; s/^# //; p; }; d' < $0
+	exit 0
+	;;
+esac
+
+exec awk '
+BEGIN { count = 2; }
+$1 == "Index:" { full = $2; count = 0; }
+$1 == "---" || $1 == "+++" || $1 == "***" {
+  if (++count <= 2 && $2 != "/dev/null")
+    $2 = full;
+}
+{ print; }
+' ${1+"$@"}

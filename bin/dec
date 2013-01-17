@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Decrypt a file encrypted using OpenSSL.
+
+if [ "$#" = "0" -o "$#" = "1" ]
+then
+  echo ERROR: Insufficient arguments
+  echo Usage: $0 "<infile>" "<outfile>"
+  exit 1
+fi
+
+if [ ! -r "$1" ]
+then
+  echo ERROR: Could not read file \"$1\".
+  exit 1
+fi
+
+if [ -e "$2" ]
+then
+  echo ERROR: File \"$2\" already exists.
+  exit 1
+fi
+
+echo INFO: Decrypting file \"$1\" into \"$2\"...
+openssl enc -aes-256-cbc -d -in "$1" -out "$2"

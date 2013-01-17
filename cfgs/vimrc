@@ -1,0 +1,37 @@
+" Configuration for Vim 7.x or better.
+" $HOME/.vimrc is a symbolic-link to this file.
+"
+syntax on
+"
+set showmatch
+set undolevels=0
+set shiftwidth=2
+set tabstop=8 
+set autoindent 
+set nowarn
+set noerrorbells
+set visualbell t_vb=
+set copyindent
+set nobackup
+set nohlsearch
+set mouse=
+"
+autocmd BufRead,BufNewFile *.htm4 setfiletype html
+"
+inoremap <Tab> <C-V><Tab>
+"
+autocmd BufNewFile,BufReadPre *.java setlocal expandtab
+autocmd BufNewFile,BufReadPre *.c setlocal expandtab
+autocmd BufNewFile,BufReadPre *.cc setlocal expandtab
+autocmd BufNewFile,BufReadPre *.cpp setlocal expandtab
+autocmd BufNewFile,BufReadPre *.h setlocal expandtab
+autocmd BufNewFile,BufReadPre *.hh setlocal expandtab
+autocmd BufNewFile,BufReadPre *.hpp setlocal expandtab
+autocmd BufNewFile,BufReadPre *.y setlocal expandtab
+autocmd BufNewFile,BufReadPre *.sql setlocal expandtab
+autocmd BufNewFile,BufReadPre *.xml setlocal expandtab
+autocmd BufNewFile,BufReadPre *.html setlocal expandtab
+autocmd BufNewFile,BufReadPre *.htm4 setlocal expandtab
+"
+" An alternate approach suggested by Bram Moolenaar.
+" filetype plugin indent on
