@@ -1,0 +1,5 @@
+ranjit.xcf is a GIMP file used to create the "Ranjit Logo" in Devanagari.
+
+console8x16.bdf is the BDF "source" for the console8x6 bitmapped font from
+Konsole (in KDE 3.5.x) as created/compiled by Lars Doelle. Use bdftopcf to
+compile it to PCF.

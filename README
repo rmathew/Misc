@@ -9,3 +9,6 @@ build:
 
 cfgs:
   "Dot-files" and other configuration files.
+
+gfx:
+  Art-work and other graphics files.

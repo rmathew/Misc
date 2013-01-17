@@ -15,6 +15,7 @@ mrxvt.syncTabTitle:	false
 
 mrxvt.scrollBar:	true
 mrxvt.scrollbarRight:	true
+mrxvt.saveLines:	2048
 mrxvt.scrollbarStyle:	rxvt
 
 mrxvt.showMenu:		false
@@ -27,16 +28,17 @@ mrxvt.pointerBlank:	false
 # mrxvt.xftPFont:		DejaVu Sans
 # mrxvt.xftPSize:		10
 
-mrxvt.background:	#f0f0f0
-mrxvt.foreground:	#000000
-mrxvt.tabBackground:	#f0f0f0
+mrxvt.background:	#F0F0F0
+mrxvt.foreground:	#3F3F3F
+mrxvt.tabBackground:	#F0F0F0
 mrxvt.tabForeground:	#000000
-mrxvt.itabBackground:	#e0e0e0
+mrxvt.itabBackground:	#E0E0E0
 mrxvt.itabForeground:	#606060
-mrxvt.cursorColor:	#000000
-mrxvt.scrollColor:	#e7e7e7
-mrxvt.troughColor:	#f0f0f0
+mrxvt.cursorColor:	#00008F
+mrxvt.highlightColor:	#B2DFEE
+mrxvt.scrollColor:	#E7E7E7
+mrxvt.troughColor:	#F0F0F0
 
-# Use console8x16 (bitmapped) font from Konsole.
+# Use the console8x16 (bitmapped) font from Konsole.
 mrxvt.font:		-misc-console-medium-r-normal--16-160-72-72-c-80-iso10646-1
 mrxvt.boldFont:		-misc-console-medium-r-normal--16-160-72-72-c-80-iso10646-1
