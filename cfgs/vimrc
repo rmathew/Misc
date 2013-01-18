@@ -1,8 +1,9 @@
 " Configuration for Vim 7.x or better.
 " $HOME/.vimrc is a symbolic-link to this file.
-"
+
 syntax on
-"
+
+set nocompatible
 set showmatch
 set undolevels=0
 set shiftwidth=2
@@ -15,11 +16,10 @@ set copyindent
 set nobackup
 set nohlsearch
 set mouse=
-"
+
 autocmd BufRead,BufNewFile *.htm4 setfiletype html
-"
-inoremap <Tab> <C-V><Tab>
-"
+
+" In source-code files, we do not want TAB characters.
 autocmd BufNewFile,BufReadPre *.java setlocal expandtab
 autocmd BufNewFile,BufReadPre *.c setlocal expandtab
 autocmd BufNewFile,BufReadPre *.cc setlocal expandtab
@@ -32,6 +32,18 @@ autocmd BufNewFile,BufReadPre *.sql setlocal expandtab
 autocmd BufNewFile,BufReadPre *.xml setlocal expandtab
 autocmd BufNewFile,BufReadPre *.html setlocal expandtab
 autocmd BufNewFile,BufReadPre *.htm4 setlocal expandtab
+
+" If you really want to insert a TAB character, press Ctrl+v and then TAB.
+inoremap <Tab> <C-V><Tab>
+
 "
 " An alternate approach suggested by Bram Moolenaar.
 " filetype plugin indent on
+
+" Force Vim to show 256 colors with mrxvt.
+" (http://www.math.cmu.edu/~gautam/per/opensource/xterm16/xterm16-doc.html)
+" Install mrxvt.terminfo from its sources first using 'tic mrxvt.terminfo'.
+autocmd VimEnter *
+  \ if &term == 'rxvt'	|
+  \   set t_Co=256	|
+  \ endif

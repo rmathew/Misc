@@ -1,6 +1,9 @@
 # Configuration for mrxvt.
 # $HOME/.mrxvt is a symbolic-link to this file.
 
+# Tip: If LANG is set to a UTF-8 variant, mrxvt doesn't show things like
+# man-pages properly; override LANG to a non-UTF-8 variant if TERM=rxvt.
+
 mrxvt.autohideTabbar:	false
 mrxvt.bottomTabbar:	false
 mrxvt.hideButtons:	true
@@ -38,6 +41,11 @@ mrxvt.cursorColor:	#00008F
 mrxvt.highlightColor:	#B2DFEE
 mrxvt.scrollColor:	#E7E7E7
 mrxvt.troughColor:	#F0F0F0
+
+# Make regular copy/paste short-cuts work.
+# (First ensure that xclip is installed.)
+mrxvt.macro.Ctrl+Shift+c:	Exec !/usr/bin/xclip -o | /usr/bin/xclip -selection clipboard
+mrxvt.macro.Ctrl+Shift+v:	Paste CLIPBOARD
 
 # Use the console8x16 (bitmapped) font from Konsole.
 mrxvt.font:		-misc-console-medium-r-normal--16-160-72-72-c-80-iso10646-1
