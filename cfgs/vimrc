@@ -37,13 +37,15 @@ autocmd BufNewFile,BufReadPre *.htm4 setlocal expandtab
 inoremap <Tab> <C-V><Tab>
 
 "
-" An alternate approach suggested by Bram Moolenaar.
+" An alternate approach for the above suggested by Bram Moolenaar.
 " filetype plugin indent on
 
-" Force Vim to show 256 colors with mrxvt.
-" (http://www.math.cmu.edu/~gautam/per/opensource/xterm16/xterm16-doc.html)
-" Install mrxvt.terminfo from its sources first using 'tic mrxvt.terminfo'.
-autocmd VimEnter *
-  \ if &term == 'rxvt'	|
-  \   set t_Co=256	|
-  \ endif
+" Force Vim to show 256 colors with mrxvt, if needed.
+" (Check with ':echo &t_Co' - should output '256' instead of '8'.)
+" mrxvrt must have been configured with --enable-256colors and mrxvt.terminfo
+" should have been installed using 'sudo tic mrxvt.terminfo'.
+"
+" autocmd VimEnter *
+"   \ if &term == 'rxvt'	|
+"   \   set t_Co=256	|
+"   \ endif

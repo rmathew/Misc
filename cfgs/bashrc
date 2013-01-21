@@ -3,6 +3,10 @@
 
 set -o vi
 
+# Speed things up a little.
+export LC_ALL=C
+export LANG=C
+
 # Show the 20 most "recently-downloaded" files in the given directory.
 recdld() {
   LS_DIR=${1-$PWD}
