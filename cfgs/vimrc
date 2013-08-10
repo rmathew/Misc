@@ -3,9 +3,11 @@
 
 syntax on
 
+" Change this to 'light' for lighter terminal-backgrounds.
+set background=dark
+
 set nocompatible
 set showmatch
-set undolevels=0
 set shiftwidth=2
 set tabstop=8 
 set autoindent 

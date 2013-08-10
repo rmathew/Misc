@@ -196,7 +196,7 @@ Plugin {
         }
 	button {
             icon = web-browser
-            image = /usr/local/firefox/icons/mozicon128.png
+            image = /usr/local/firefox/browser/icons/mozicon128.png
             tooltip = Firefox
             action = /usr/local/firefox/firefox
     	}
