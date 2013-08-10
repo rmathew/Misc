@@ -46,13 +46,23 @@ mrxvt.troughColor:	#F0F0F0
 
 # A soothing variant of the classic green-on-black scheme.
 # (Be sure to "set background=dark" in .vimrc.)
-mrxvt.background:	#000000
-mrxvt.foreground:	#00A800
-mrxvt.tabBackground:	#000000
-mrxvt.tabForeground:	#00A800
-mrxvt.itabBackground:	#000000
-mrxvt.itabForeground:	#006000
-mrxvt.cursorColor:	#00C800
+# mrxvt.background:	#101010
+# mrxvt.foreground:	#00A800
+# mrxvt.tabBackground:	#101010
+# mrxvt.tabForeground:	#00A800
+# mrxvt.itabBackground:	#101010
+# mrxvt.itabForeground:	#006000
+# mrxvt.cursorColor:	#00C800
+
+# A soothing variant of the amber-on-black scheme.
+# (Be sure to "set background=dark" in .vimrc.)
+mrxvt.background:	#101010
+mrxvt.foreground:	#B08000
+mrxvt.tabBackground:	#101010
+mrxvt.tabForeground:	#B08800
+mrxvt.itabBackground:	#101010
+mrxvt.itabForeground:	#906000
+mrxvt.cursorColor:	#B08800
 
 # Make regular copy/paste short-cuts work.
 # (First ensure that xclip is installed.)
