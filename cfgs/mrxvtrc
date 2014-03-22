@@ -64,6 +64,9 @@ mrxvt.itabBackground:	#101010
 mrxvt.itabForeground:	#906000
 mrxvt.cursorColor:	#B08800
 
+# Make double click select whole URL's
+mrxvt.cutChars:		:=/~#@?%&_-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
+
 # Make regular copy/paste short-cuts work.
 # (First ensure that xclip is installed.)
 mrxvt.macro.Ctrl+Shift+c:	Exec !/usr/bin/xclip -o | /usr/bin/xclip -selection clipboard

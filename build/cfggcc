@@ -2,8 +2,9 @@
 
 # Configure GCC.
 
-# Tip #1: Use make install-strip
-../gcc-4.6.3/configure --prefix=/usr --enable-languages=c,c++ \
+# Tip #1: Use make -j 2 bootstrap
+# Tip #2: Use make install-strip
+../gcc-4.6.4/configure --prefix=/usr --enable-languages=c,c++,fortran \
   --target=i686-pc-linux-gnu \
   --with-arch=pentium3 --with-cpu=pentium3 --with-tune=pentium3 \
   --enable-shared --enable-threads=posix --enable-__cxa_atexit \
