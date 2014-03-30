@@ -33,3 +33,7 @@ alias mkold='touch -t 200801010000'
 alias ff='LD_LIBRARY_PATH=/usr/local/ffmpeg/lib /usr/local/ffmpeg/bin/ffplay'
 alias xine='LD_LIBRARY_PATH=/usr/local/xine/lib /usr/local/xine/bin/xine'
 alias mu='/usr/local/mupdf/bin/mupdf-x11'
+
+# Setup for Go programs.
+alias go='/usr/local/go/bin/go'
+export GOPATH="$HOME/src/Go"

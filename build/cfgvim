@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Configure Vim.
+# (Edit "src/feature.h" as needed.)
+./configure --prefix=/usr --with-compiledby="Ranjit Mathew" \
+  --enable-gui=no --disable-gpm --disable-xsmp --disable-selinux \
+  --disable-multibyte --disable-nls --disable-xim \
+  --without-x --without-gnome --with-features=big
