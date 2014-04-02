@@ -12,7 +12,7 @@ set runtimepath+=/usr/local/go/misc/vim
 let g:gofmt_command = '/usr/local/go/bin/gofmt -tabs=false -tabwidth=2'
 autocmd FileType go autocmd BufWritePre <buffer> Fmt
 
-syntax on
+syntax enable
 
 set nocompatible
 set nobackup
@@ -28,9 +28,16 @@ set showmatch
 set nohlsearch
 set ruler
 
-colorscheme desert
 " Set to 'light'/'dark' for lighter/darker terminal-backgrounds respectively.
 set background=dark
+
+" Solarized (http://ethanschoonover.com/solarized) color-scheme.
+let g:solarized_termcolors=256
+let g:solarized_menu=0
+colorscheme solarized
+
+" An alternative color-scheme that goes well with an amber-on-black terminal.
+" colorscheme desert
 
 autocmd BufRead,BufNewFile *.htm4 setfiletype html
 

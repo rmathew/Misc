@@ -56,13 +56,23 @@ mrxvt.troughColor:	#F0F0F0
 
 # A soothing variant of the amber-on-black scheme.
 # (Be sure to "set background=dark" in .vimrc.)
-mrxvt.background:	#101010
-mrxvt.foreground:	#B08000
-mrxvt.tabBackground:	#101010
-mrxvt.tabForeground:	#B08800
-mrxvt.itabBackground:	#101010
-mrxvt.itabForeground:	#906000
-mrxvt.cursorColor:	#B08800
+# mrxvt.background:	#101010
+# mrxvt.foreground:	#B08000
+# mrxvt.tabBackground:	#101010
+# mrxvt.tabForeground:	#B08800
+# mrxvt.itabBackground:	#101010
+# mrxvt.itabForeground:	#906000
+# mrxvt.cursorColor:	#B08800
+
+# An attempt to mimic Solarized (normal-contrast + console-ui + dark-bg).
+# (Be sure to "set background=dark" in .vimrc.)
+mrxvt.background:	#1C1C1C
+mrxvt.foreground:	#808080
+mrxvt.tabBackground:	#1C1C1C
+mrxvt.tabForeground:	#888888
+mrxvt.itabBackground:	#1C1C1C
+mrxvt.itabForeground:	#555555
+mrxvt.cursorColor:	#888888
 
 # Make double click select whole URL's
 mrxvt.cutChars:		:=/~#@?%&_-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
