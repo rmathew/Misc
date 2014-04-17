@@ -34,6 +34,12 @@ alias ff='LD_LIBRARY_PATH=/usr/local/ffmpeg/lib /usr/local/ffmpeg/bin/ffplay'
 alias xine='LD_LIBRARY_PATH=/usr/local/xine/lib /usr/local/xine/bin/xine'
 alias mu='/usr/local/mupdf/bin/mupdf-x11'
 
+# Setup for Java programs.
+export JAVA_HOME=/usr/local/jdk
+alias java="$JAVA_HOME/bin/java"
+alias javac="$JAVA_HOME/bin/javac"
+alias ant="/usr/local/ant/bin/ant"
+
 # Setup for Go programs.
 alias go='/usr/local/go/bin/go'
 export GOPATH="$HOME/src/Go"

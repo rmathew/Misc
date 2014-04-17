@@ -7,8 +7,8 @@ bin:
 build:
   Scripts to customize software I build from source.
 
-cfgs:
-  "Dot-files" and other configuration files.
+rcfiles:
+  "Dot-files" and other runtime-configuration files.
 
 gfx:
   Art-work and other graphics files.

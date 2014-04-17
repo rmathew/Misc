@@ -1,0 +1,2 @@
+# exec /opt/kde/bin/startkde
+exec /usr/bin/openbox-session
