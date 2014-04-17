@@ -12,16 +12,16 @@ define autoselect {0}
 define bytetag {-background blue -foreground white}
 
 # Tag options for changed diff region
-define chgtag {-background LightSteelBlue}
+define chgtag {-background Cyan -foreground Black}
 
 # Color change bars to match the diff map
 define colorcbs {0}
 
 # Tag options for the current diff region
-define currtag {-background Khaki}
+define currtag {-background Khaki -foreground Black}
 
 # Tag options for deleted diff region
-define deltag {-background Tomato -font -misc-console-medium-r-normal--16-160-72-72-c-80-iso10646-1}
+define deltag {-background Red -font -misc-console-medium-r-normal--16-160-72-72-c-80-iso10646-1}
 
 # diff command
 define diffcmd {diff}
@@ -51,13 +51,13 @@ define ignoreblanksopt {-b}
 define inlinetag {-background DodgerBlue -font -misc-console-medium-r-normal--16-160-72-72-c-80-iso10646-1}
 
 # Tag options for inserted diff region
-define instag {-background PaleGreen -font -misc-console-medium-r-normal--16-160-72-72-c-80-iso10646-1}
+define instag {-background Green -foreground Black -font -misc-console-medium-r-normal--16-160-72-72-c-80-iso10646-1}
 
 # Tag options for overlap diff region
 define overlaptag {-background yellow}
 
 # Show change bars
-define showcbs {1}
+define showcbs {0}
 
 # Show inline diffs (byte comparisons)
 define showinline1 {0}
@@ -90,7 +90,7 @@ define tagln {0}
 define tagtext {1}
 
 # Text widget options
-define textopt {-background #F0F0F0 -foreground #3F3F3F -font -misc-console-medium-r-normal--16-160-72-72-c-80-iso10646-1 -wrap none}
+define textopt {-background #1C1C1C -foreground #808080 -font -misc-console-medium-r-normal--16-160-72-72-c-80-iso10646-1 -wrap none}
 
 # Directory for scratch files
 define tmpdir {/tmp}

@@ -1,0 +1,27 @@
+# Simple Makefile for C programs on Linux/UNIX.
+# REPLACE: "foo" and "bar".
+
+DEL=rm -f
+
+CC=gcc
+CFLAGS=-std=c99 -pedantic -Wall -O2 -fomit-frame-pointer -pipe
+
+LFLAGS=
+
+OBJECTS=\
+  foo.o \
+
+PROG=bar
+
+.PHONY: all clean run
+
+all: $(PROG)
+
+$(PROG): $(OBJECTS)
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(PROG) $(LFLAGS)
+
+run: $(PROG)
+	$(PROG)
+
+clean:
+	$(DEL) $(OBJECTS) $(PROG)

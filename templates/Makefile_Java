@@ -1,0 +1,28 @@
+# Simple Makefile for Java programs on Linux/UNIX.
+# REPLACE: "Foo" and "Bar".
+
+DEL=rm -f
+
+JAVA_HOME=/usr/local/jdk
+JAVA=$(JAVA_HOME)/bin/java
+JAVAC=$(JAVA_HOME)/bin/javac
+
+CLASSPATH=.
+
+MAIN_CLASS=Foo
+CLASSES=\
+  $(MAIN_CLASS).class \
+  Bar.class \
+
+.PHONY: all clean run
+
+%.class: %.java
+	        $(JAVAC) -cp $(CLASSPATH) $<
+
+all: $(CLASSES)
+
+run: $(CLASSES)
+	$(JAVA) -cp $(CLASSPATH) $(MAIN_CLASS)
+
+clean:
+	$(DEL) $(CLASSES)

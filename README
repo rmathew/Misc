@@ -1,5 +1,5 @@
-Miscellaneous stuff that is version-controlled and that
-doesn't fit any where else.
+This is a collection of miscellaneous stuff that is version-controlled and
+that doesn't fit anywhere else.
 
 bin:
   Scripts that go into the "bin" directory put into my $PATH.
@@ -7,8 +7,11 @@ bin:
 build:
   Scripts to customize software I build from source.
 
+gfx:
+  Art-work and other graphics files.
+
 rcfiles:
   "Dot-files" and other runtime-configuration files.
 
-gfx:
-  Art-work and other graphics files.
+templates:
+  Templates for various things (bash-scripts, Makefiles, etc.).
