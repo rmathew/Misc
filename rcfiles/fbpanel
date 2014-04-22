@@ -194,7 +194,7 @@ Plugin {
             icon = terminal
             image = /usr/share/pixmaps/mrxvt.png
             tooltip = Terminal
-            action = /usr/bin/mrxvt -g 80x60+42+0
+            action = /usr/bin/mrxvt -tn rxvt-256color -g 80x60+42+0
         }
 	button {
             icon = web-browser
