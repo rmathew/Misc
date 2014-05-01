@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Show a dialog-box using gxmessage and shut-down/reboot as indicated.
 # Useful with OpenBox.
@@ -13,18 +13,19 @@ else
   DEFAULT_LABEL="Shut Down"
 fi
 
-/usr/bin/gxmessage -buttons "Shut Down:0,Reboot:1,Cancel:2" \
+/usr/bin/gxmessage -buttons "Shut Down:101,Reboot:102,Cancel:0" \
   -default "$DEFAULT_LABEL" -center -title "Confirm Action" \
   "Are you really sure?"
 
 case "$?" in
-  0)
+  101)
     sudo /sbin/shutdown -h now
     ;;
-  1)
+  102)
     sudo /sbin/shutdown -r now
     ;;
-  2)
+# Note: Dismissing the dialog with an ESC gives an exit-code of 1.
+  0 | 1)
     exit 0
     ;;
 esac
