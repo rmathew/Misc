@@ -1,32 +1,41 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Configure xine-lib.
-
-# NOTE: Can also be used to compile xine-ui (pass --disable-lirc 
-# --without-caca --without-aalib)
+# Configure xine-lib (as of v1.2.5).
+#
+# NOTE: Can also be used to compile xine-ui (pass 
+# --disable-lirc --without-caca --without-aalib).
 #
 # NOTE: Install FAAD first.
 # NOTE: Might want to tweak configure for specific CPU (uses pentiumpro).
 # NOTE: Make sure XvMC is enabled and configured (/etc/X11/XvMCConfig).
+# (Need to manually edit src/video_out/Makefile to add libXvMC.)
 #
-# FIXME: VCD plug-in disabled due to scsi/scsi.h stupidity.
+# NOTE: Need to use:
+#   LD_LIBRARY_PATH=/usr/local/ffmpeg/lib make
 
 XINE_PREFIX="/usr/local/xine"
+FFMPEG_PREFIX="/usr/local/ffmpeg"
 
-export CC="gcc -march=pentium3 -msse -fomit-frame-pointer -pipe -g0 -I""$XINE_PREFIX/include"
-export CXX="g++ -march=pentium3 -msse -fomit-frame-pointer -pipe -g0 -L""$XINE_PREFIX/lib"
+export CC="/usr/bin/gcc -march=pentium3 -msse -fomit-frame-pointer -pipe -g0 -I""$XINE_PREFIX/include"
+export CXX="/usr/bin/g++ -march=pentium3 -msse -fomit-frame-pointer -pipe -g0 -L""$XINE_PREFIX/lib"
 
 export PATH="$PATH:$XINE_PREFIX/bin"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$XINE_PREFIX/lib"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$FFMPEG_PREFIX/lib"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$XINE_PREFIX/lib/pkgconfig"
+export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$FFMPEG_PREFIX/lib/pkgconfig"
 
 ./configure --prefix="$XINE_PREFIX" \
   --disable-nls --disable-debug --enable-shared --disable-static \
-  --with-external-libfaad --disable-aalib \
-  --with-alsa --disable-oss --without-arts --without-esound \
-  --with-real-codecs-path=/usr/local/w32codecs \
-  --with-w32-path=/usr/local/w32codecs --with-freetype --with-fontconfig \
-  --enable-antialiasing --with-gnu-ld --with-gnu-as \
   --disable-dependency-tracking --enable-optimizations \
-  --with-xv-path=/usr/lib --with-xxmc-path=/usr/lib \
-  --with-xxmc-lib=XvMCNVIDIA --disable-vcd $*
+  --enable-faad --disable-aalib \
+  --with-alsa --disable-oss --without-esound \
+  --enable-w32dll --enable-real-codecs \
+  --with-w32-path=/usr/local/w32codecs \
+  --with-real-codecs-path=/usr/local/w32codecs \
+  --with-freetype --with-fontconfig --enable-antialiasing \
+  --enable-xvmc --with-xv-path=/usr/lib --with-xxmc-path=/usr/lib \
+  --with-theora --with-vorbis \
+  --with-xxmc-lib=XvMCNVIDIA_dynamic --with-xvmc-lib=XvMCNVIDIA_dynamic \
+  --disable-vcd \
+  "$@"
