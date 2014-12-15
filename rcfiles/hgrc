@@ -1,2 +1,8 @@
 [ui]
 username = Ranjit Mathew <rmathew@gmail.com>
+
+[extensions]
+hggit = /extra/hg-git/hggit
+
+[git]
+intree = True

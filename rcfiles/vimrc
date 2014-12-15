@@ -9,7 +9,7 @@ filetype plugin indent off
 set runtimepath+=/usr/local/go/misc/vim
 
 " Run gofmt on Go source-code when it is saved.
-let g:gofmt_command = '/usr/local/go/bin/gofmt -tabs=false -tabwidth=2'
+let g:gofmt_command = '/usr/local/go/bin/gofmt'
 autocmd FileType go autocmd BufWritePre <buffer> Fmt
 
 syntax enable
@@ -48,7 +48,6 @@ autocmd BufRead,BufNewFile *.htm4 setfiletype html
 autocmd BufNewFile,BufReadPre *.c setlocal expandtab
 autocmd BufNewFile,BufReadPre *.cc setlocal expandtab
 autocmd BufNewFile,BufReadPre *.cpp setlocal expandtab
-autocmd BufNewFile,BufReadPre *.go setlocal expandtab
 autocmd BufNewFile,BufReadPre *.h setlocal expandtab
 autocmd BufNewFile,BufReadPre *.hh setlocal expandtab
 autocmd BufNewFile,BufReadPre *.hpp setlocal expandtab

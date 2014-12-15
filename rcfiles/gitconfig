@@ -1,3 +1,5 @@
 [user]
 	name = Ranjit Mathew
 	email = rmathew@gmail.com
+[push]
+	default = simple

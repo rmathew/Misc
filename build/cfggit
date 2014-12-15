@@ -1,4 +1,54 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Configure, build and install Git from sources.
 
-# Configure Git.
-./configure --prefix=/usr/local/git --with-editor=/usr/bin/vim --without-tcltk
+set -o nounset
+set -o errexit
+set -o pipefail
+
+GIT_PREFIX=/usr/local/git
+if [ -d "$GIT_PREFIX" ]
+then
+  echo ERROR: \"$GIT_PREFIX\" exists. Move it aside first.
+  exit 1
+fi
+
+# NOTE: "make install-man" fails as of git-2.1.3 with XML-validation errors.
+# Therefore directly extract man-pages from separately-downloaded archive.
+MANTAR=$(find .. -maxdepth 1 -name git-manpages*tar* -print)
+if [ -z "$MANTAR" ]
+then
+  echo ERROR: Could not locate TAR of man-pages.
+  exit 1
+fi
+
+./configure --prefix=${GIT_PREFIX} --with-shell=/bin/bash \
+  --with-editor=/usr/bin/vim --with-pager=/usr/bin/less --without-tcltk
+
+CONFIG_STATUS="$?"
+if [ "$CONFIG_STATUS" != "0" ]
+then
+  echo ERROR: \"configure\" failed.
+  exit 1
+fi
+
+make install
+
+INSTALL_STATUS="$?"
+if [ "$INSTALL_STATUS" != "0" ]
+then
+  echo ERROR: \"make install\" failed.
+  exit 1
+fi
+
+echo INFO: Extracting man-pages...
+tar -C ${GIT_PREFIX}/share/man -xf ${MANTAR}
+
+echo INFO: Compressing man-pages...
+cd ${GIT_PREFIX}/share/man
+find . -type f -exec gzip -9 -v \{\} \;
+
+echo INFO: Stripping binaries...
+cd ${GIT_PREFIX}
+find . -type f -exec strip \{\} \;
+
+echo INFO: Done. Git installed in \"${GIT_PREFIX}\".
