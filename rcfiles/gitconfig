@@ -1,5 +1,19 @@
 [user]
-	name = Ranjit Mathew
-	email = rmathew@gmail.com
+  name = Ranjit Mathew
+  email = rmathew@gmail.com
+
+[core]
+  editor = "/usr/bin/vim -X"
+
+[format]
+  pretty = oneline
+
+[log]
+  abbrevCommit = true
+  decorate = short
+
 [push]
-	default = simple
+  default = simple
+
+[merge]
+  tool = vimdiff

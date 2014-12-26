@@ -5,8 +5,8 @@
 filetype off
 filetype plugin indent off
 
-" Add Go plug-ins for Vim from $GOROOT/misc/vim.
-set runtimepath+=/usr/local/go/misc/vim
+" Add Go plug-ins for Vim.
+set runtimepath+=/extra/go-vim
 
 " Run gofmt on Go source-code when it is saved.
 let g:gofmt_command = '/usr/local/go/bin/gofmt'
