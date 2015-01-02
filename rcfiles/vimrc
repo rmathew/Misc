@@ -6,18 +6,18 @@ filetype off
 filetype plugin indent off
 
 " Add Go plug-ins for Vim.
-set runtimepath+=/extra/go-vim
+" set runtimepath+=/extra/go-vim
 
 " Run gofmt on Go source-code when it is saved.
-let g:gofmt_command = '/usr/local/go/bin/gofmt'
-autocmd FileType go autocmd BufWritePre <buffer> Fmt
+" let g:gofmt_command = '/usr/local/go/bin/gofmt'
+" autocmd FileType go autocmd BufWritePre <buffer> Fmt
 
 syntax enable
 
 set nocompatible
 set nobackup
 set mouse=
-set shiftwidth=2
+set shiftwidth=4
 set tabstop=8
 set autoindent
 set copyindent
@@ -44,23 +44,23 @@ autocmd BufRead,BufNewFile *.htm4 setfiletype html
 " Create $HOME/.vim/indent/html.vim with 'let b:did_indent = 1' to disable
 " auto-indenting for HTML-type files.
 
-" In source-code files, we do not want TAB characters.
-autocmd BufNewFile,BufReadPre *.c setlocal expandtab
-autocmd BufNewFile,BufReadPre *.cc setlocal expandtab
-autocmd BufNewFile,BufReadPre *.cpp setlocal expandtab
-autocmd BufNewFile,BufReadPre *.h setlocal expandtab
-autocmd BufNewFile,BufReadPre *.hh setlocal expandtab
-autocmd BufNewFile,BufReadPre *.hpp setlocal expandtab
-autocmd BufNewFile,BufReadPre *.html setlocal expandtab
-autocmd BufNewFile,BufReadPre *.htm4 setlocal expandtab
-autocmd BufNewFile,BufReadPre *.java setlocal expandtab
-autocmd BufNewFile,BufReadPre *.py setlocal expandtab
-autocmd BufNewFile,BufReadPre *.sql setlocal expandtab
-autocmd BufNewFile,BufReadPre *.xml setlocal expandtab
-autocmd BufNewFile,BufReadPre *.y setlocal expandtab
-
-" If you really want to insert a TAB character, press Ctrl+V and then TAB.
-inoremap <Tab> <C-V><Tab>
+" In most source-code files, we do not want TAB characters. We also want to
+" insert shiftwidth() spaces on pressing TAB. If we really want to insert a TAB
+" character, we press Ctrl+V and then TAB.
+autocmd BufNewFile,BufReadPre *.c setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.cc setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.cpp setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.h setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.hh setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.hpp setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.hs setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.html setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.htm4 setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.java setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.py setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.sql setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.xml setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.y setlocal expandtab softtabstop=-1
 
 " Force Vim to show 256 colors with mrxvt, if needed.
 " (Check with ':echo &t_Co' - should output '256' instead of '8'.)
