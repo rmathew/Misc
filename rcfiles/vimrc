@@ -58,6 +58,7 @@ autocmd BufNewFile,BufReadPre *.html setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.htm4 setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.java setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.py setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.sh setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.sql setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.xml setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.y setlocal expandtab softtabstop=-1

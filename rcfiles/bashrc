@@ -13,8 +13,11 @@ recdld() {
   /bin/ls --color=always -lot "${LS_DIR}" | sed -n '2,21p'
 }
 
-# Additional PATH components
-export PATH="${PATH}:${HOME}/bin"
+# Additional PATH components.
+if [[ "${PATH}" != *"${HOME}/bin"* ]]
+then
+  export PATH="${PATH}:${HOME}/bin"
+fi
 
 # Change the prompt to include the current working directory.
 export PS1="\w > "
@@ -35,7 +38,7 @@ alias mkold='touch -t 200801010000'
 
 alias ff='LD_LIBRARY_PATH=/usr/local/ffmpeg/lib /usr/local/ffmpeg/bin/ffplay'
 alias xine='LD_LIBRARY_PATH=/usr/local/xine/lib:/usr/local/ffmpeg/lib /usr/local/xine/bin/xine'
-alias mu='/usr/local/mupdf/bin/mupdf-x11'
+alias mu='/usr/local/mupdf/bin/mupdf-x11 -b 8 -r 96'
 
 # Setup for Java programs.
 export JAVA_HOME=/usr/local/jdk
