@@ -21,6 +21,8 @@ set shiftwidth=4
 set tabstop=8
 set autoindent
 set copyindent
+" Customize cindent (see help-text for cinoptions-values).
+set cinoptions=>4,g2,h2,+2,(2,u2,:2,=2
 set nowarn
 set noerrorbells
 set visualbell t_vb=
