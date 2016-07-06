@@ -3,7 +3,7 @@
 # that need to be stripped. If an argument is a directory, tries to strip all
 # files inside it (non-recursively).
 #
-# To recursively delete everything in a directory:
+# To recursively strip everything in a directory:
 #   find /path/to/directory -type d -exec maybe_strip \{\} \;
 
 if [[ -z "$1" ]]

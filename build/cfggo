@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Build Go 1.5+ from source.
+
+set -o nounset
+set -o errexit
+set -o pipefail
+
+if [ ! -f "${PWD}/src/all.bash" ]
+then
+    echo ERROR: \"./src/all.bash\" not found. Not in the Go source-directory.
+    exit 1
+fi
+
+export GOROOT_BOOTSTRAP="/usr/local/go14"
+if [ ! -d "${GOROOT_BOOTSTRAP}" ]
+then
+  echo ERROR: \"${GOROOT_BOOTSTRAP}\" not found.
+  exit 2
+fi
+
+export CC="/usr/bin/gcc"
+export CFLAGS="-march=pentium3 -msse -pipe"
+export GO_TEST_TIMEOUT_SCALE="10"
+
+cd src
+./all.bash

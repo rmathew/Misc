@@ -10,7 +10,7 @@ export LANG=C
 # Show the 20 most "recently-downloaded" files in the given directory.
 recdld() {
   LS_DIR=${1-$PWD}
-  /bin/ls --color=always -lot "${LS_DIR}" | sed -n '2,21p'
+  /bin/ls --color=always -lota "${LS_DIR}" | sed -n '2,21p'
 }
 
 # Additional PATH components.
@@ -28,8 +28,11 @@ export EDITOR='/usr/bin/vim -X'
 export CC='/usr/bin/gcc -march=pentium3 -msse -pipe'
 export CXX='/usr/bin/g++ -march=pentium3 -msse -pipe'
 
-eval `/usr/bin/dircolors $HOME/Misc/rcfiles/solarized_dircolors`
-alias ls='/bin/ls --color=auto'
+if [[ "$TERM" != "linux" ]]
+then
+    eval `/usr/bin/dircolors $HOME/Misc/rcfiles/solarized_dircolors`
+fi
+alias ls='/bin/ls $LS_OPTIONS'
 
 alias switchoff='sudo /sbin/shutdown -h now; exit'
 

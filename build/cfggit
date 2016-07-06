@@ -48,7 +48,6 @@ cd ${GIT_PREFIX}/share/man
 find . -type f -exec gzip -9 -v \{\} \;
 
 echo INFO: Stripping binaries...
-cd ${GIT_PREFIX}
-find . -type f -exec strip \{\} \;
+find ${GIT_PREFIX} -type d -exec ${HOME}/bin/maybe_strip \{\} \;
 
 echo INFO: Done. Git installed in \"${GIT_PREFIX}\".

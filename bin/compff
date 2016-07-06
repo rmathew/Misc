@@ -3,32 +3,45 @@
 # Quick-and-dirty script to compact the SQLite databases used
 # by Firefox to improve its start-up times.
 
-SQLITE3=/usr/bin/sqlite3
-FF_PROFILE=$HOME/.mozilla/firefox/default.wla
+SQLITE3="/usr/bin/sqlite3"
+FF_PROFILES_DIR="${HOME}/.mozilla/firefox"
 
-if test ! -x "$SQLITE3"
+opt_sqlite() {
+    cd "$1"
+    for i in *.sqlite
+    do
+      echo -n "BEFORE: "
+      du -ks "$i"
+
+      "${SQLITE3}" "$i" "VACUUM;"
+
+      echo -n " AFTER: "
+      du -ks "$i"
+    done
+}
+
+if test ! -x "${SQLITE3}"
 then
-  echo ERROR: Could not execute \"$SQLITE3\"!
-  exit 1
+    echo ERROR: Could not execute \"${SQLITE3}\"!
+    exit 1
 fi
 
-if test ! -d "$FF_PROFILE"
+if test ! -d "${FF_PROFILES_DIR}"
 then
-  echo ERROR: Could not locate Firefox profile folder \"$FF_PROFILE\".
-  exit 1
+    echo ERROR: Unable to locate profiles directory \"${FF_PROFILES_DIR}\".
+    exit 2
 fi
 
-cd "$FF_PROFILE"
+cd "${FF_PROFILES_DIR}"
+if test ! -r "profiles.ini"
+then
+    echo ERROR: Unable to read profiles information from \"profiles.ini\".
+    exit 3
+fi
 
-for i in *.sqlite
+for pdir in $(grep Path= profiles.ini | cut -f2 -d=)
 do
-  echo -n "BEFORE: "
-  du -ks "$i"
-
-  "$SQLITE3" "$i" "VACUUM;"
-
-  echo -n " AFTER: "
-  du -ks "$i"
+    opt_sqlite "${FF_PROFILES_DIR}/${pdir}"
 done
 
 echo Done.
