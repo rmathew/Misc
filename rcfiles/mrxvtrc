@@ -40,6 +40,7 @@ mrxvt.pointerBlank:	false
 # mrxvt.itabBackground:	#E0E0E0
 # mrxvt.itabForeground:	#606060
 # mrxvt.cursorColor:	#00008F
+
 mrxvt.highlightColor:	#B2DFEE
 mrxvt.scrollColor:	#E7E7E7
 mrxvt.troughColor:	#F0F0F0
@@ -66,13 +67,25 @@ mrxvt.troughColor:	#F0F0F0
 
 # An attempt to mimic Solarized (normal-contrast + console-ui + dark-bg).
 # (Be sure to "set background=dark" in .vimrc.)
-mrxvt.background:	#1C1C1C
-mrxvt.foreground:	#808080
-mrxvt.tabBackground:	#1C1C1C
-mrxvt.tabForeground:	#888888
-mrxvt.itabBackground:	#1C1C1C
-mrxvt.itabForeground:	#555555
-mrxvt.cursorColor:	#888888
+# mrxvt.background:	#1C1C1C
+# mrxvt.foreground:	#808080
+# mrxvt.tabBackground:	#1C1C1C
+# mrxvt.tabForeground:	#888888
+# mrxvt.itabBackground:	#1C1C1C
+# mrxvt.itabForeground:	#555555
+# mrxvt.cursorColor:	#888888
+
+# Align with Solarized Light color-scheme for Vim.
+# (Be sure to "set background=light" in .vimrc.)
+# base3
+mrxvt.background:      #FFFFD7
+# base00
+mrxvt.foreground:      #626262
+mrxvt.tabBackground:   #FFFFD7
+mrxvt.tabForeground:   #555555
+mrxvt.itabBackground:  #FFFFD7
+mrxvt.itabForeground:  #888888
+mrxvt.cursorColor:     #555555
 
 # Make double click select whole URL's
 mrxvt.cutChars:		:=/~#@?%&_-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz

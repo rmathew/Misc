@@ -43,10 +43,6 @@ fi
 echo INFO: Extracting man-pages...
 tar -C ${GIT_PREFIX}/share/man -xf ${MANTAR}
 
-echo INFO: Compressing man-pages...
-cd ${GIT_PREFIX}/share/man
-find . -type f -exec gzip -9 -v \{\} \;
-
 echo INFO: Stripping binaries...
 find ${GIT_PREFIX} -type d -exec ${HOME}/bin/maybe_strip \{\} \;
 

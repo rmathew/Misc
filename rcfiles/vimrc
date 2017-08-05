@@ -12,6 +12,11 @@ filetype plugin indent off
 " let g:gofmt_command = '/usr/local/go/bin/gofmt'
 " autocmd FileType go autocmd BufWritePre <buffer> Fmt
 
+" Customize indentation of Python code (":help ft-python-indent").
+let g:pyindent_open_paren = '&sw'
+let g:pyindent_nested_paren = '&sw'
+let g:pyindent_continue = '&sw'
+
 syntax enable
 
 set nocompatible
@@ -23,6 +28,7 @@ set autoindent
 set copyindent
 " Customize cindent (see help-text for cinoptions-values).
 set cinoptions=>4,g2,h2,+2,(2,u2,:2,=2
+set backspace=indent
 set nowarn
 set noerrorbells
 set visualbell t_vb=
@@ -31,7 +37,7 @@ set nohlsearch
 set ruler
 
 " Set to 'light'/'dark' for lighter/darker terminal-backgrounds respectively.
-set background=dark
+set background=light
 
 " Solarized (http://ethanschoonover.com/solarized) color-scheme.
 let g:solarized_termcolors=256
@@ -50,19 +56,19 @@ autocmd BufRead,BufNewFile *.htm4 setfiletype html
 " insert shiftwidth() spaces on pressing TAB. If we really want to insert a TAB
 " character, we press Ctrl+V and then TAB.
 autocmd BufNewFile,BufReadPre *.c setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.cc setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.cpp setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.h setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.cc setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.hh setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.cpp setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.hpp setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.hs setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.html setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.htm4 setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.java setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.py setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.sh setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.sql setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.xml setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.sh setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.py setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.java setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.hs setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.sql setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.y setlocal expandtab softtabstop=-1
 
 " Force Vim to show 256 colors with mrxvt, if needed.
