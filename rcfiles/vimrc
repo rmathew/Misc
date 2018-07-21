@@ -1,16 +1,14 @@
-" Configuration for Vim 7.x or better.
+" Configuration for Vim 8.x or better.
 " $HOME/.vimrc is a symbolic-link to this file.
 
 " Force Vim to reload after setting runtimepath.
 filetype off
 filetype plugin indent off
 
-" Add Go plug-ins for Vim.
-" set runtimepath+=/extra/go-vim
-
-" Run gofmt on Go source-code when it is saved.
-" let g:gofmt_command = '/usr/local/go/bin/gofmt'
-" autocmd FileType go autocmd BufWritePre <buffer> Fmt
+" Load the Vim-Go plug-in with some preferences set.
+let g:go_fmt_command = '/usr/local/go/bin/gofmt'
+let g:go_fmt_autosave = 1
+set runtimepath+=/extra1/vim-go
 
 " Customize indentation of Python code (":help ft-python-indent").
 let g:pyindent_open_paren = '&sw'
@@ -70,6 +68,8 @@ autocmd BufNewFile,BufReadPre *.java setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.hs setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.sql setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.y setlocal expandtab softtabstop=-1
+" Go is a special snowflake that needs TABs - make it appear less gross.
+autocmd BufNewFile,BufReadPre *.go setlocal noexpandtab tabstop=4
 
 " Force Vim to show 256 colors with mrxvt, if needed.
 " (Check with ':echo &t_Co' - should output '256' instead of '8'.)

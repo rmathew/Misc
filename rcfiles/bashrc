@@ -1,5 +1,5 @@
 # Bash customizations.
-# $HOME/.bashrc is a symbolic-link to this file.
+# ${HOME}/.bashrc is a symbolic-link to this file.
 
 set -o vi
 
@@ -28,11 +28,11 @@ export EDITOR='/usr/bin/vim -X'
 export CC='/usr/bin/gcc -march=pentium3 -msse -pipe'
 export CXX='/usr/bin/g++ -march=pentium3 -msse -pipe'
 
-if [[ "$TERM" != "linux" ]]
+if [[ "${TERM}" != "linux" ]]
 then
-    eval `/usr/bin/dircolors $HOME/Misc/rcfiles/solarized_dircolors`
+    eval `/usr/bin/dircolors ${HOME}/Misc/rcfiles/solarized_dircolors`
 fi
-alias ls='/bin/ls $LS_OPTIONS'
+alias ls='/bin/ls ${LS_OPTIONS}'
 
 alias switchoff='sudo /sbin/shutdown -h now; exit'
 
@@ -44,11 +44,12 @@ alias xine='LD_LIBRARY_PATH=/usr/local/xine/lib:/usr/local/ffmpeg/lib /usr/local
 alias mu='/usr/local/mupdf/bin/mupdf-x11'
 
 # Setup for Java programs.
-export JAVA_HOME=/usr/local/jdk
-alias java="$JAVA_HOME/bin/java"
-alias javac="$JAVA_HOME/bin/javac"
+export JAVA_HOME="/usr/local/jdk"
+alias java="${JAVA_HOME}/bin/java"
+alias javac="${JAVA_HOME}/bin/javac"
 alias ant="/usr/local/ant/bin/ant"
 
 # Setup for Go programs.
 alias go='/usr/local/go/bin/go'
-export GOPATH="$HOME/src/Go"
+alias gofmt='/usr/local/go/bin/gofmt'
+export GOPATH="${HOME}/Go"

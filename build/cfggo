@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build Go 1.5+ from source.
+# Build Go 1.10+ from source.
 
 set -o nounset
 set -o errexit
@@ -11,15 +11,27 @@ then
     exit 1
 fi
 
-export GOROOT_BOOTSTRAP="/usr/local/go14"
-if [ ! -d "${GOROOT_BOOTSTRAP}" ]
+# Try the previously-installed version first, otherwise Go 1.4.3 (the last
+# version of Go that supported native bootstrapping).
+if [ -d "/usr/local/OLD_go" ]
 then
-  echo ERROR: \"${GOROOT_BOOTSTRAP}\" not found.
-  exit 2
+    export GOROOT_BOOTSTRAP="/usr/local/OLD_go"
+elif [ -d "/usr/local/go14" ]
+then
+    export GOROOT_BOOTSTRAP="/usr/local/go14"
+else
+    echo ERROR: No Go compiler found for bootstrapping.
+    exit 2
 fi
+echo INFO: Using \"${GOROOT_BOOTSTRAP}\" as the bootstrapping Go compiler.
 
 export CC="/usr/bin/gcc"
 export CFLAGS="-march=pentium3 -msse -pipe"
+
+export GOROOT="/usr/local/go"
+export GOOS="linux"
+export GOARCH="386"
+export GO386="387"
 export GO_TEST_TIMEOUT_SCALE="10"
 
 cd src

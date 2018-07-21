@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Configure Vim.
+# Configure a no-nonsense, text-oriented build of Vim.
 # (Edit "src/feature.h" as needed.)
 ./configure --prefix=/usr --with-compiledby="Ranjit Mathew" \
   --enable-gui=no --disable-gpm --disable-xsmp --disable-selinux \

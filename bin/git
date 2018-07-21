@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+GIT_BASE=/usr/local/git
+if [ ! -x "${GIT_BASE}/bin/git" ]
+then
+    echo ERROR: Unable to execute \"${GIT_BASE}/bin/git\".
+    exit 1
+fi
+export MANPATH="${GIT_BASE}/share/man:${MANPATH}"
+"${GIT_BASE}/bin/git" --no-pager "$@"
