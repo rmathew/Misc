@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build Go 1.10+ from source.
+# Build Go 1.12+ from source.
 
 set -o nounset
 set -o errexit

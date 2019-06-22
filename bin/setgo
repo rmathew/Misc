@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Run ". setgo" to set up Go for the current working-directory.
+# NOTE: This script assumes that Go is installed in "/usr/local/go".
+if [[ -x "/usr/local/go/bin/go" ]]
+then
+    # Add "/usr/local/go/bin" to PATH if it is not already there.
+    if [[ ! "${PATH}" =~ ".*/usr/local/go/bin.*" ]]
+    then
+	export PATH="${PATH}:/usr/local/go/bin"
+    fi
+    # Add the current working-directory to GOPATH if it is not already there.
+    if [[ -z "${GOPATH}" ]]
+    then
+	export GOPATH="${PWD}"
+    elif [[ ! "${GOPATH}" =~ ".*${PWD}.*" ]]
+    then
+	export GOPATH="${PWD}:${GOPATH}"
+    fi
+else
+    echo ERROR: Could not locate the "go" binary in "/usr/local/go/bin/go".
+fi

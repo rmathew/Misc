@@ -33,6 +33,8 @@ set visualbell t_vb=
 set showmatch
 set nohlsearch
 set ruler
+" Hide buffers instead of unloading them when they are abandoned.
+set hidden
 
 " Set to 'light'/'dark' for lighter/darker terminal-backgrounds respectively.
 set background=light

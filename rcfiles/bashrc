@@ -14,7 +14,7 @@ recdld() {
 }
 
 # Additional PATH components.
-if [[ "${PATH}" != *"${HOME}/bin"* ]]
+if [[ ! "${PATH}" =~ ".*${HOME}/bin.*" ]]
 then
   export PATH="${PATH}:${HOME}/bin"
 fi
@@ -39,6 +39,7 @@ alias switchoff='sudo /sbin/shutdown -h now; exit'
 # Make a file "old" so that recdld above doesn't normally show it.
 alias mkold='touch -t 200801010000'
 
+alias git="${HOME}/Misc/bin/git"
 alias ff='LD_LIBRARY_PATH=/usr/local/ffmpeg/lib /usr/local/ffmpeg/bin/ffplay'
 alias xine='LD_LIBRARY_PATH=/usr/local/xine/lib:/usr/local/ffmpeg/lib /usr/local/xine/bin/xine'
 alias mu='/usr/local/mupdf/bin/mupdf-x11'

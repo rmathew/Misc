@@ -1,9 +1,21 @@
 #!/usr/bin/env bash
-GIT_BASE=/usr/local/git
-if [ ! -x "${GIT_BASE}/bin/git" ]
+# Create a shell-alias to point to this wrapper over the "git" command.
+#
+# NOTE: We do *not* create a symbolic-link in $HOME/bin as usual - the Makefile
+# in git-2.20, for example, tries to execute the "git rev-parse" command, gets
+# confused by the error-message from this wrapper, and causes build-errors.
+set -o nounset
+set -o errexit
+set -o pipefail
+
+GIT_BASE="/usr/local/git"
+if [[ ! -x "${GIT_BASE}/bin/git" ]]
 then
     echo ERROR: Unable to execute \"${GIT_BASE}/bin/git\".
     exit 1
 fi
-export MANPATH="${GIT_BASE}/share/man:${MANPATH}"
+if [[ ! "${MANPATH}" =~ ".*${GIT_BASE}/share/man.*" ]]
+then
+    export MANPATH="${GIT_BASE}/share/man:${MANPATH}"
+fi
 "${GIT_BASE}/bin/git" --no-pager "$@"
