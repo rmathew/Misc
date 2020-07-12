@@ -11,6 +11,7 @@ export LANG=C
 recdld() {
   LS_DIR=${1-$PWD}
   /bin/ls --color=always -lota "${LS_DIR}" | sed -n '2,21p'
+  /bin/echo -n '[m'  # ANSI escape-sequence to reset the terminal-colors.
 }
 
 # Additional PATH components.
@@ -51,6 +52,12 @@ alias javac="${JAVA_HOME}/bin/javac"
 alias ant="/usr/local/ant/bin/ant"
 
 # Setup for Go programs.
+#
+# NOTE: Get "cacert.pem" from https://curl.haxx.se/docs/caextract.html and set
+# SSL_CERT_FILE="/extra2/cacert.pem" PATH="${PATH}:${HOME}/Misc/bin" before
+# invoking "go get -u -v".
 alias go='/usr/local/go/bin/go'
 alias gofmt='/usr/local/go/bin/gofmt'
-export GOPATH="${HOME}/Go"
+# vim-go has become too bloated - run gofmt manually when needed.
+alias gfall='find . -name *.go -exec /usr/local/go/bin/gofmt -l -w \{\} \;'
+export GOPATH="/extra2/Go"

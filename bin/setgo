@@ -6,15 +6,20 @@ then
     # Add "/usr/local/go/bin" to PATH if it is not already there.
     if [[ ! "${PATH}" =~ ".*/usr/local/go/bin.*" ]]
     then
-	export PATH="${PATH}:/usr/local/go/bin"
+        export PATH="${PATH}:/usr/local/go/bin"
     fi
     # Add the current working-directory to GOPATH if it is not already there.
-    if [[ -z "${GOPATH}" ]]
+    if [[ -d "${PWD}/src" ]]
     then
-	export GOPATH="${PWD}"
-    elif [[ ! "${GOPATH}" =~ ".*${PWD}.*" ]]
-    then
-	export GOPATH="${PWD}:${GOPATH}"
+        if [[ -z "${GOPATH}" ]]
+        then
+            export GOPATH="${PWD}"
+        elif [[ ! "${GOPATH}" =~ ".*${PWD}.*" ]]
+        then
+            export GOPATH="${PWD}:${GOPATH}"
+        fi
+    else
+        echo ERROR: Missing directory "${PWD}/src" - invalid Go-structure.
     fi
 else
     echo ERROR: Could not locate the "go" binary in "/usr/local/go/bin/go".

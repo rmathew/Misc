@@ -13,7 +13,7 @@ then
 fi
 
 # NOTE: "make install-man" fails as of git-2.1.3 with XML-validation errors.
-# Therefore directly extract man-pages from separately-downloaded archive.
+# Directly extract man-pages from a separately-downloaded archive.
 MANTAR=$(find .. -maxdepth 1 -name git-manpages*tar* -print)
 if [[ -z "${MANTAR}" ]]
 then
