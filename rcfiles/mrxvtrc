@@ -18,7 +18,7 @@ mrxvt.syncTabTitle:	false
 
 mrxvt.scrollBar:	true
 mrxvt.scrollbarRight:	true
-mrxvt.saveLines:	2048
+mrxvt.saveLines:	8192
 mrxvt.scrollbarStyle:	rxvt
 
 mrxvt.showMenu:		false
@@ -31,61 +31,37 @@ mrxvt.pointerBlank:	false
 # mrxvt.xftPFont:		DejaVu Sans
 # mrxvt.xftPSize:		10
 
-# A soothing variant of the black-on-white scheme.
-# (Be sure to "set background=light" in .vimrc.)
-# mrxvt.background:	#F0F0F0
-# mrxvt.foreground:	#3F3F3F
-# mrxvt.tabBackground:	#F0F0F0
-# mrxvt.tabForeground:	#000000
-# mrxvt.itabBackground:	#E0E0E0
-# mrxvt.itabForeground:	#606060
-# mrxvt.cursorColor:	#00008F
-
-mrxvt.highlightColor:	#B2DFEE
 mrxvt.scrollColor:	#E7E7E7
 mrxvt.troughColor:	#F0F0F0
 
-# A soothing variant of the classic green-on-black scheme.
-# (Be sure to "set background=dark" in .vimrc.)
-# mrxvt.background:	#101010
-# mrxvt.foreground:	#00A800
-# mrxvt.tabBackground:	#101010
-# mrxvt.tabForeground:	#00A800
-# mrxvt.itabBackground:	#101010
-# mrxvt.itabForeground:	#006000
-# mrxvt.cursorColor:	#00C800
-
-# A soothing variant of the amber-on-black scheme.
-# (Be sure to "set background=dark" in .vimrc.)
-# mrxvt.background:	#101010
-# mrxvt.foreground:	#B08000
-# mrxvt.tabBackground:	#101010
-# mrxvt.tabForeground:	#B08800
-# mrxvt.itabBackground:	#101010
-# mrxvt.itabForeground:	#906000
-# mrxvt.cursorColor:	#B08800
-
-# An attempt to mimic Solarized (normal-contrast + console-ui + dark-bg).
-# (Be sure to "set background=dark" in .vimrc.)
-# mrxvt.background:	#1C1C1C
-# mrxvt.foreground:	#808080
-# mrxvt.tabBackground:	#1C1C1C
-# mrxvt.tabForeground:	#888888
-# mrxvt.itabBackground:	#1C1C1C
-# mrxvt.itabForeground:	#555555
-# mrxvt.cursorColor:	#888888
-
-# Align with Solarized Light color-scheme for Vim.
-# (Be sure to "set background=light" in .vimrc.)
-# base3
-mrxvt.background:      #FFFFD7
-# base00
-mrxvt.foreground:      #626262
-mrxvt.tabBackground:   #FFFFD7
-mrxvt.tabForeground:   #555555
-mrxvt.itabBackground:  #FFFFD7
-mrxvt.itabForeground:  #888888
-mrxvt.cursorColor:     #555555
+# Align with the PaperColor Light color-scheme for Vim (see
+# https://github.com/NLKNguyen/papercolor-theme).
+mrxvt.color0:          #EEEEEE
+mrxvt.color1:          #AF0000
+mrxvt.color2:          #008700
+mrxvt.color3:          #5F8700
+mrxvt.color4:          #0087AF
+mrxvt.color5:          #878787
+mrxvt.color6:          #005F87
+mrxvt.color7:          #444444
+mrxvt.color8:          #BCBCBC
+mrxvt.color9:          #D70000
+mrxvt.color10:         #D70087
+mrxvt.color11:         #8700AF
+mrxvt.color12:         #D75F00
+mrxvt.color13:         #D75F00
+mrxvt.color14:         #005FAF
+mrxvt.color15:         #005F87
+#
+mrxvt.background:      #EEEEEE
+mrxvt.foreground:      #444444
+mrxvt.colorBD:         #222222
+mrxvt.tabBackground:   #EEEEEE
+mrxvt.tabForeground:   #444444
+mrxvt.itabBackground:  #EEEEEE
+mrxvt.itabForeground:  #BCBCBC
+mrxvt.cursorColor:     #444444
+mrxvt.highlightColor:  #F8F880
 
 # Make double click select whole URL's
 mrxvt.cutChars:		:=/~#@?%&_-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz

@@ -5,7 +5,7 @@
 filetype off
 filetype plugin indent off
 
-" Customize indentation of Python code (":help ft-python-indent").
+" Customize indentation of Python code (see ':help ft-python-indent').
 let g:pyindent_open_paren = '&sw'
 let g:pyindent_nested_paren = '&sw'
 let g:pyindent_continue = '&sw'
@@ -14,33 +14,48 @@ syntax enable
 
 set nocompatible
 set nobackup
-set mouse=
-set shiftwidth=4
-set tabstop=8
-set autoindent
-set copyindent
+set tabstop=8 shiftwidth=4
+set autoindent smartindent cindent copyindent
 " Customize cindent (see help-text for cinoptions-values).
 set cinoptions=>4,g2,h2,+2,(2,u2,:2,=2
 set backspace=indent
-set nowarn
-set noerrorbells
-set visualbell t_vb=
+set nowarn noerrorbells visualbell t_vb=
 set showmatch
-set nohlsearch
-set ruler
+set ignorecase nohlsearch
 " Hide buffers instead of unloading them when they are abandoned.
 set hidden
+set mouse=
 
-" Set to 'light'/'dark' for lighter/darker terminal-backgrounds respectively.
+" Disable relative line-numbers (too slow).
+set nonumber norelativenumber
+
+" Show right-justified current & total lines, current column, and if-modified.
+set showmode ruler
+set rulerformat=%=%1.4l/%1.4L,\ %1.3c\ %m
+
+" Fix ESC-latency (https://www.johnhawthorn.com/2012/09/vi-escape-delays/).
+set timeout ttimeout timeoutlen=1024 ttimeoutlen=32
+
+" PaperColor (https://github.com/NLKNguyen/papercolor-theme).
 set background=light
-
-" Solarized (http://ethanschoonover.com/solarized) color-scheme.
-let g:solarized_termcolors=256
-let g:solarized_menu=0
-colorscheme solarized
-
-" An alternative color-scheme that goes well with an amber-on-black terminal.
-" colorscheme desert
+let g:PaperColor_Theme_Options = {
+  \   'theme': {
+  \     'default.light': {
+  \       'allow_bold': 1,
+  \       'transparent_background': 0,
+  \       'override' : {
+  \         'linenumber_fg' : ['', '0'],
+  \         'linenumber_bg' : ['', '15'],
+  \       }
+  \     }
+  \   }
+  \ }
+colorscheme PaperColor
+" Fix the display of error-messages with PaperColor (see
+" https://github.com/NLKNguyen/papercolor-theme/issues/118).
+highlight ErrorMsg ctermfg=0 ctermbg=1
+" Make warning-messages pop out with a yellow background.
+highlight WarningMsg ctermfg=7 ctermbg=226
 
 autocmd BufRead,BufNewFile *.htm4 setfiletype html
 
@@ -67,16 +82,6 @@ autocmd BufNewFile,BufReadPre *.sql setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.y setlocal expandtab softtabstop=-1
 " Go is a special snowflake that needs TABs - make it appear less gross.
 autocmd BufNewFile,BufReadPre *.go setlocal noexpandtab tabstop=4
-
-" Force Vim to show 256 colors with mrxvt, if needed.
-" (Check with ':echo &t_Co' - should output '256' instead of '8'.)
-" mrxvrt must have been configured with --enable-256colors and mrxvt.terminfo
-" should have been installed using 'sudo tic mrxvt.terminfo'.
-"
-" autocmd VimEnter *
-"   \ if &term == 'rxvt'	|
-"   \   set t_Co=256	|
-"   \ endif
 
 " Keep this as the last line.
 filetype plugin indent on
