@@ -25,6 +25,8 @@ export PS1="\w > "
 
 export DEBUG=/usr/bin/gdb
 export EDITOR='/usr/bin/vim -X'
+# Update MANPATH to include man-pages usually installed with --prefix=/usr
+export MANPATH=/usr/share/man:/usr/man
 
 export CC='/usr/bin/gcc -march=pentium3 -msse -pipe'
 export CXX='/usr/bin/g++ -march=pentium3 -msse -pipe'

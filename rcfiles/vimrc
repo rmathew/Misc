@@ -1,42 +1,51 @@
 " Configuration for Vim 8.x or better.
 " $HOME/.vimrc is a symbolic-link to this file.
 
-" Force Vim to reload after setting runtimepath.
-filetype off
-filetype plugin indent off
+set nocompatible
 
-" Customize indentation of Python code (see ':help ft-python-indent').
+set mouse=
+set nobackup
+set nowarn noerrorbells visualbell t_vb=
+set ignorecase nohlsearch
+set showmatch
+
+syntax enable
+set tabstop=8 shiftwidth=4
+set autoindent smartindent cindent copyindent
+" Customize cindent; see help-text for 'cinoptions-values'.
+set cinoptions=>4,g2,h2,+2,(2,u2,:2,=2
+set backspace=indent
+" Tweak the indentation of Python code; see help-text for 'ft-python-indent'.
 let g:pyindent_open_paren = '&sw'
 let g:pyindent_nested_paren = '&sw'
 let g:pyindent_continue = '&sw'
 
-syntax enable
-
-set nocompatible
-set nobackup
-set tabstop=8 shiftwidth=4
-set autoindent smartindent cindent copyindent
-" Customize cindent (see help-text for cinoptions-values).
-set cinoptions=>4,g2,h2,+2,(2,u2,:2,=2
-set backspace=indent
-set nowarn noerrorbells visualbell t_vb=
-set showmatch
-set ignorecase nohlsearch
-" Hide buffers instead of unloading them when they are abandoned.
+" Hide buffers instead of unloading them when they are abandoned - allows
+" us to edit multiple files without having to repeatedly sav them.
 set hidden
-set mouse=
 
-" Disable relative line-numbers (too slow).
-set nonumber norelativenumber
+" Improve drawing for local terminals.
+set ttyfast
+
+" Fix ESC-latency (https://www.johnhawthorn.com/2012/09/vi-escape-delays/).
+set timeout ttimeout timeoutlen=1024 ttimeoutlen=32
+
+" We *could* use relative line-numbers for a productivity-boost - but only with
+" Vim v8.1.0374 or later and on a fast machine, as it is too slow otherwise:
+"
+"   https://old.reddit.com/r/vim/comments/9euctk/slow_scrollingrefresh_with_relativenumber_or/
+"
+" We then need to widen the terminal-width to accommodate these line-numbers,
+" so we can display a sentinel line ('colorcolumn=80'). However, these options
+" together cause a redraw-slowdown of ~15%, making editing sluggish, so we drop
+" them on a slow machine (mitigating with 'lazyredraw' causes other issues).
+set nonumber norelativenumber colorcolumn=
 
 " Show right-justified current & total lines, current column, and if-modified.
 set showmode ruler
 set rulerformat=%=%1.4l/%1.4L,\ %1.3c\ %m
 
-" Fix ESC-latency (https://www.johnhawthorn.com/2012/09/vi-escape-delays/).
-set timeout ttimeout timeoutlen=1024 ttimeoutlen=32
-
-" PaperColor (https://github.com/NLKNguyen/papercolor-theme).
+" PaperColor Light theme (https://github.com/NLKNguyen/papercolor-theme).
 set background=light
 let g:PaperColor_Theme_Options = {
   \   'theme': {
@@ -59,8 +68,8 @@ highlight WarningMsg ctermfg=7 ctermbg=226
 
 autocmd BufRead,BufNewFile *.htm4 setfiletype html
 
-" Create $HOME/.vim/indent/html.vim with 'let b:did_indent = 1' to disable
-" auto-indenting for HTML-type files.
+" NOTE: Create $HOME/.vim/indent/html.vim with 'let b:did_indent = 1' to
+" disable auto-indenting for HTML-type files.
 
 " In most source-code files, we do not want TAB characters. We also want to
 " insert shiftwidth() spaces on pressing TAB. If we really want to insert a TAB
@@ -82,6 +91,3 @@ autocmd BufNewFile,BufReadPre *.sql setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.y setlocal expandtab softtabstop=-1
 " Go is a special snowflake that needs TABs - make it appear less gross.
 autocmd BufNewFile,BufReadPre *.go setlocal noexpandtab tabstop=4
-
-" Keep this as the last line.
-filetype plugin indent on

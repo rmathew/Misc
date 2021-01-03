@@ -55,7 +55,7 @@ mrxvt.color15:         #005F87
 #
 mrxvt.background:      #EEEEEE
 mrxvt.foreground:      #444444
-mrxvt.colorBD:         #222222
+mrxvt.colorBD:         #000000
 mrxvt.tabBackground:   #EEEEEE
 mrxvt.tabForeground:   #444444
 mrxvt.itabBackground:  #EEEEEE
