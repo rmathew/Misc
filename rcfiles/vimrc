@@ -9,7 +9,9 @@ set nowarn noerrorbells visualbell t_vb=
 set ignorecase nohlsearch
 set showmatch
 
+" This causes a redraw-slowdown of ~5x (which *still* remains less than 1 ms).
 syntax enable
+
 set tabstop=8 shiftwidth=4
 set autoindent smartindent cindent copyindent
 " Customize cindent; see help-text for 'cinoptions-values'.
@@ -30,16 +32,17 @@ set ttyfast
 " Fix ESC-latency (https://www.johnhawthorn.com/2012/09/vi-escape-delays/).
 set timeout ttimeout timeoutlen=1024 ttimeoutlen=32
 
-" We *could* use relative line-numbers for a productivity-boost - but only with
-" Vim v8.1.0374 or later and on a fast machine, as it is too slow otherwise:
+" Use relative line-numbers for quickly going to a given line - but only with
+" Vim v8.1.0374 or later, as it is *too slow* otherwise:
 "
 "   https://old.reddit.com/r/vim/comments/9euctk/slow_scrollingrefresh_with_relativenumber_or/
 "
-" We then need to widen the terminal-width to accommodate these line-numbers,
-" so we can display a sentinel line ('colorcolumn=80'). However, these options
-" together cause a redraw-slowdown of ~15%, making editing sluggish, so we drop
-" them on a slow machine (mitigating with 'lazyredraw' causes other issues).
-set nonumber norelativenumber colorcolumn=
+" Widen the terminal-width to accommodate these line-numbers and display a
+" sentinel line to mark column 80. Highlight the current line for quick
+" orientation. Note that these options cause a *further* redraw-slowdown of
+" ~2.75x (over 'syntax enable'), but it remains less than 5ms. (Mitigating
+" the slowdown with 'lazyredraw' causes erratic display-updates.)
+set nonumber relativenumber cursorline colorcolumn=80
 
 " Show right-justified current & total lines, current column, and if-modified.
 set showmode ruler

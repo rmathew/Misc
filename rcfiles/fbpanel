@@ -173,7 +173,8 @@ Plugin {
         button {
             image = /usr/share/pixmaps/mrxvt.png
             tooltip = Terminal
-            action = /usr/bin/mrxvt -tn rxvt-256color -g 80x60+42+0
+            # Make the window a bit wider to accommodate line-numbers in Vim.
+            action = /usr/bin/mrxvt -tn rxvt-256color -g 85x60+42+0
         }
 	button {
             image = /usr/local/firefox/browser/icons/mozicon128.png
