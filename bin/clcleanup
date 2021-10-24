@@ -1,6 +1,9 @@
 #! /bin/sh
 
 # *** NOT WRITTEN BY ME - JUST BACKED UP. ***
+# See:
+#   https://gcc.gnu.org/legacy-ml/gcc/1998-10/msg00349.html
+#   http://cvs.savannah.gnu.org/viewvc/cvs-utils/cvs-utils/
 
 # clcleanup version 1.3
 

@@ -1,6 +1,7 @@
 #! /bin/sh
 
 # *** NOT WRITTEN BY ME - JUST BACKED UP. ***
+# See: https://gcc.gnu.org/legacy-ml/gcc/2004-03/msg01195.html
 
 # Copyright 1999, 2000, 2001  Alexandre Oliva <oliva@lsd.ic.unicamp.br>
 

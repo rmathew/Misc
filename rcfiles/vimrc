@@ -9,6 +9,9 @@ set nowarn noerrorbells visualbell t_vb=
 set ignorecase nohlsearch
 set showmatch
 
+" Auto-detect file-types and auto-apply specific plug-ins and indentation.
+filetype plugin indent on
+
 " This causes a redraw-slowdown of ~5x (which *still* remains less than 1 ms).
 syntax enable
 
@@ -48,8 +51,6 @@ set nonumber relativenumber cursorline colorcolumn=80
 set showmode ruler
 set rulerformat=%=%1.4l/%1.4L,\ %1.3c\ %m
 
-" PaperColor Light theme (https://github.com/NLKNguyen/papercolor-theme).
-set background=light
 let g:PaperColor_Theme_Options = {
   \   'theme': {
   \     'default.light': {
@@ -62,12 +63,21 @@ let g:PaperColor_Theme_Options = {
   \     }
   \   }
   \ }
-colorscheme PaperColor
-" Fix the display of error-messages with PaperColor (see
-" https://github.com/NLKNguyen/papercolor-theme/issues/118).
-highlight ErrorMsg ctermfg=0 ctermbg=1
-" Make warning-messages pop out with a yellow background.
-highlight WarningMsg ctermfg=7 ctermbg=226
+
+" Use PaperColor Light theme (https://github.com/NLKNguyen/papercolor-theme)
+" almost everywhere, except where we expect a dark background.
+if &term == "linux" || &term == "xterm" || &term == "xterm-256color"
+    colorscheme desert
+else
+    set background=light
+    colorscheme PaperColor
+
+    " Fix the display of error-messages with PaperColor (see
+    " https://github.com/NLKNguyen/papercolor-theme/issues/118).
+    highlight ErrorMsg ctermfg=0 ctermbg=1
+    " Make warning-messages pop out with a yellow background.
+    highlight WarningMsg ctermfg=7 ctermbg=226
+endif
 
 autocmd BufRead,BufNewFile *.htm4 setfiletype html
 
@@ -77,20 +87,21 @@ autocmd BufRead,BufNewFile *.htm4 setfiletype html
 " In most source-code files, we do not want TAB characters. We also want to
 " insert shiftwidth() spaces on pressing TAB. If we really want to insert a TAB
 " character, we press Ctrl+V and then TAB.
+autocmd BufNewFile,BufReadPre *.awk setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.c setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.h setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.cc setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.hh setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.cpp setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.h setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.hh setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.hpp setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.html setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.htm4 setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.xml setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.sh setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.py setlocal expandtab softtabstop=-1
-autocmd BufNewFile,BufReadPre *.java setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.hs setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.htm4 setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.html setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.java setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.py setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.sh setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.sql setlocal expandtab softtabstop=-1
+autocmd BufNewFile,BufReadPre *.xml setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.y setlocal expandtab softtabstop=-1
 " Go is a special snowflake that needs TABs - make it appear less gross.
 autocmd BufNewFile,BufReadPre *.go setlocal noexpandtab tabstop=4
