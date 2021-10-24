@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#
+# Finds out which binaries or libraries in the given directory are broken by
+# changed or removed shared libraries.
+SCAN_DIR=${1:-$PWD}
+set -euo pipefail
+
+echo "INFO: Scanning \"${SCAN_DIR}\" for broken binaries and libraries..."
+for f in $(find "${SCAN_DIR}" -type f -print); do
+    MAYBE_ELF=$(file "${f}" | awk '{ print $2; }')
+    if [[ "${MAYBE_ELF}" != "ELF" ]]; then
+        continue
+    fi
+    MAYBE_BROKEN=$(ldd "${f}" | grep "not found" | sort -u)
+    if [[ -z "${MAYBE_BROKEN}" ]]; then
+        continue
+    fi
+    echo -e "ERROR: \"${f}\":\n\t${MAYBE_BROKEN}"
+done

@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# Configure Qt 3.x
-./configure -prefix /opt/qt -release -shared -qt-gif -system-zlib \
-  -no-exceptions -thread -no-nis -no-cups -no-ipv6 -plugin-imgfmt-png \
-  -plugin-imgfmt-jpeg -plugin-imgfmt-mng -system-libpng -system-libjpeg \
-  -system-libmng -no-tablet

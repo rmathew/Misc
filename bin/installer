@@ -1,0 +1,32 @@
+#!/bin/bash
+#
+# Downloads, unpacks, configures, and installs a package, given a URL to
+# download its tar-ball.
+#
+if [[ -z "${1}" ]]; then
+    echo -e "ERROR: Missing package-URL(s).\n"
+    exit 1
+fi
+set -euo pipefail
+
+for u in "$@"; do
+    PKG_URL="${u}"
+    PKG_TAR=$(basename "${PKG_URL}")
+    VER_PKG=$(echo ${PKG_TAR} | \
+        sed -e 's/\.xz$//' -e 's/\.bz2$//' -e 's/\.gz$//' | \
+        sed 's/\.tar$//')
+
+    echo -e "INFO: Downloading and installing \"${VER_PKG}\"...\n"
+    wget "${PKG_URL}" &&
+        tar -xvf "${PKG_TAR}" &&
+        echo "" &&
+        pushd "${VER_PKG}" &&
+        "${HOME}/bin/configurator" &&
+        time make -O -j2 &&
+        echo "" &&
+        read -p "ATTENTION: Now uninstall older \"${VER_PKG}\"..." unused &&
+        sudo make install-strip &&
+        popd &&
+        rm -rf "${VER_PKG}" && rm "${PKG_TAR}" &&
+        echo -e "INFO: Done installing \"${VER_PKG}\".\n"
+done
