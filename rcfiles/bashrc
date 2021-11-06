@@ -28,10 +28,12 @@ fi
 # Change the prompt to include the current working directory.
 export PS1="\w > "
 
-export DEBUG=/usr/bin/gdb
+export DEBUG='/usr/bin/gdb'
 export EDITOR='/usr/bin/vim -X'
 # Update MANPATH to include man-pages usually installed with --prefix=/usr
-export MANPATH=/usr/share/man:/usr/man
+export MANPATH='/usr/man:/usr/share/man'
+# Ensure that "man foo" correctly displays pages containing escape-sequences.
+export MANPAGER='/usr/bin/less -isr'
 
 export CC='/usr/bin/gcc -march=pentium3 -msse -pipe'
 export CXX='/usr/bin/g++ -march=pentium3 -msse -pipe'
@@ -58,13 +60,13 @@ alias java="${JAVA_HOME}/bin/java"
 alias javac="${JAVA_HOME}/bin/javac"
 alias ant="/usr/local/ant/bin/ant"
 
-# Setup for Go programs.
+# Set-up for Go programs.
 #
 # NOTE: Get "cacert.pem" from https://curl.haxx.se/docs/caextract.html and set
 # SSL_CERT_FILE="/extra2/cacert.pem" PATH="${PATH}:${HOME}/Misc/bin" before
 # invoking "go get -u -v".
-alias go='/usr/local/go/bin/go'
-alias gofmt='/usr/local/go/bin/gofmt'
+alias go='/opt/go/bin/go'
+alias gofmt='/opt/go/bin/gofmt'
 # vim-go has become too bloated - run gofmt manually when needed.
-alias gfall='find . -name *.go -exec /usr/local/go/bin/gofmt -l -w \{\} \;'
+alias gfall='find . -name *.go -exec /opt/go/bin/gofmt -l -w \{\} \;'
 export GOPATH="/extra2/Go"

@@ -1,8 +1,0 @@
-#!/bin/bash
-# Configure a minimal mrxvt build.
-./configure --prefix=/usr --sysconfdir=/etc --disable-debug \
-  --disable-dependency-tracking --enable-256colors --enable-rxvt-scroll \
-  --disable-next-scroll --disable-xterm-scroll --disable-plain-scroll \
-  --disable-sgi-scroll --disable-menubar --disable-transparency --disable-xpm \
-  --disable-jpeg --disable-png --disable-xft --disable-greek --disable-cjk \
-  --disable-text-shadow --disable-xrender

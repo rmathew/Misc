@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 #
 # configurator: A simple shell-script to help configure and build various
 # packages on Linux from their respective sources.
@@ -13,9 +13,7 @@ SOURCE="${PWD}"
 PREFIX="/usr"
 SYSCONF="/etc"
 
-PY3_DIR="${PY3_DIR:-/usr/local/python3}"
-MESON="${MESON:-${PY3_DIR}/bin/meson}"
-export PATH="${PATH}:${PY3_DIR}/bin"
+MESON="${MESON:-/usr/bin/meson}"
 
 #
 # Helper functions.
@@ -29,22 +27,22 @@ usage() {
 
 chk_configure() {
     if [[ ! -x "${SOURCE}/configure" ]]; then
-    	echo "ERROR: Missing \"configure\" script in \"${SOURCE}\"."
-    	exit 1
+        echo "ERROR: Missing \"configure\" script in \"${SOURCE}\"."
+        exit 1
     fi
 }
 
 chk_meson() {
     if [[ ! -x "${MESON}" ]]; then
-    	echo "ERROR: Unable to execute \"${MESON}\"."
-    	exit 1
+        echo "ERROR: Unable to execute \"${MESON}\"."
+        exit 1
     fi
 }
 
 chk_meson_build() {
     if [[ ! -r "${PWD}/meson.build" ]]; then
-    	echo "ERROR: Missing \"meson.build\" script in \"${PWD}\"."
-    	exit 1
+        echo "ERROR: Missing \"meson.build\" script in \"${PWD}\"."
+        exit 1
     fi
 }
 
@@ -64,28 +62,28 @@ chk_meson_build() {
 cfg_binutils() {
     chk_configure
     (set -x; mkdir -p build && cd build && "${SOURCE}/configure" \
-    	--prefix="${PREFIX}" --disable-static --enable-shared --enable-lto \
-    	--enable-gold --enable-ld=default --enable-plugins --with-system-zlib \
-    	--enable-64-bit-bfd --disable-werror --disable-debug --disable-nls \
-    	"$@")
+        --prefix="${PREFIX}" --disable-static --enable-shared --enable-lto \
+        --enable-gold --enable-ld=default --enable-plugins --with-system-zlib \
+        --enable-64-bit-bfd --disable-werror --disable-debug --disable-nls \
+        "$@")
 }
 
 # cairo 1.16.0
 cfg_cairo() {
     chk_configure
     (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" \
-    	--sysconfdir="${SYSCONF}" --disable-static --enable-shared \
-    	--enable-gl --enable-xlib-xcb --enable-tee "$@")
+        --sysconfdir="${SYSCONF}" --disable-static --enable-shared \
+        --enable-gl --enable-xlib-xcb --enable-tee "$@")
 }
 
 # dbus-1.12.20
 cfg_dbus() {
     chk_configure
     (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" \
-    	--sysconfdir="${SYSCONF}" --disable-static --enable-shared \
-	--disable-debug --disable-xml-docs --disable-doxygen-docs \
-	--disable-ducktype-docs --disable-selinux --enable-inotify \
-	--disable-tests --disable-installed-tests --disable-code-coverage "$@")
+        --sysconfdir="${SYSCONF}" --disable-static --enable-shared \
+        --disable-debug --disable-xml-docs --disable-doxygen-docs \
+        --disable-ducktype-docs --disable-selinux --enable-inotify \
+        --disable-tests --disable-installed-tests --disable-code-coverage "$@")
 }
 
 # freetype-2.11.0
@@ -98,15 +96,15 @@ cfg_freetype() {
     chk_configure
     # Enable table-validations for TrueType and OpenType.
     cd "${SOURCE}" && \
-    	sed -i.orig -r 's/.*(AUX_MODULES.*valid)/\1/' modules.cfg
+        sed -i.orig -r 's/.*(AUX_MODULES.*valid)/\1/' modules.cfg
     # Enable sub-pixel rendering for LCD displays.
     cd "${SOURCE}" && \
-	sed -i.orig -r 's/.*(#.*FT_CONFIG_OPTION_SUBPIXEL_RENDERING) .*/\1/' \
-	    include/freetype/config/ftoption.h
+        sed -i.orig -r 's/.*(#.*FT_CONFIG_OPTION_SUBPIXEL_RENDERING) .*/\1/' \
+            include/freetype/config/ftoption.h
     (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" \
-    	--sysconfdir="${SYSCONF}" --disable-static --enable-shared \
-    	--enable-freetype-config --with-zlib=yes --with-bzip2=yes \
-    	--with-png=yes "$@")
+        --sysconfdir="${SYSCONF}" --disable-static --enable-shared \
+        --enable-freetype-config --with-zlib=yes --with-bzip2=yes \
+        --with-png=yes "$@")
 }
 
 # ffmpeg-4.3.2
@@ -120,19 +118,19 @@ cfg_freetype() {
 cfg_ffmpeg() {
     chk_configure
     (set -x; PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:/usr/lib/pkgconfig" \
-    	"${SOURCE}/configure" --prefix="${PREFIX}" --disable-debug \
-    	--enable-shared --disable-static --disable-doc --disable-htmlpages \
-    	--enable-gpl --enable-version3 --enable-nonfree --disable-encoders \
-    	--enable-postproc --enable-avfilter --enable-swresample \
-    	--enable-swscale --enable-libfontconfig --enable-libfreetype \
-    	--enable-libfribidi --disable-iconv --enable-zlib --enable-bzlib \
-	--enable-libopenjpeg --cpu=pentium3 --enable-sse --enable-asm \
-	--x86asmexe=nasm --enable-optimizations --enable-stripping \
-	--enable-libfdk-aac --enable-libdav1d --enable-libvpx \
-	--enable-libx264 --enable-libx265 --enable-librsvg \
-	--extra-cflags="-I${PREFIX}/include" \
-	--extra-cxxflags="-I${PREFIX}/include" --extra-libs="-L${PREFIX}/lib" \
-	"$@")
+        "${SOURCE}/configure" --prefix="${PREFIX}" --disable-debug \
+        --enable-shared --disable-static --disable-doc --disable-htmlpages \
+        --enable-gpl --enable-version3 --enable-nonfree --disable-encoders \
+        --enable-postproc --enable-avfilter --enable-swresample \
+        --enable-swscale --enable-libfontconfig --enable-libfreetype \
+        --enable-libfribidi --disable-iconv --enable-zlib --enable-bzlib \
+        --enable-libopenjpeg --cpu=pentium3 --enable-sse --enable-asm \
+        --x86asmexe=nasm --enable-optimizations --enable-stripping \
+        --enable-libfdk-aac --enable-libdav1d --enable-libvpx \
+        --enable-libx264 --enable-libx265 --enable-librsvg \
+        --extra-cflags="-I${PREFIX}/include" \
+        --extra-cxxflags="-I${PREFIX}/include" --extra-libs="-L${PREFIX}/lib" \
+        "$@")
 }
 
 # gcc-9.4.0
@@ -140,11 +138,11 @@ cfg_gcc() {
     chk_configure
     CPU="pentium3"
     (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" \
-    	--enable-languages=c,c++ --target="i686-pc-linux-gnu" \
-    	--with-arch="${CPU}" --with-cpu="${CPU}" --with-tune="${CPU}" \
-    	--enable-threads=posix --enable-__cxa_atexit --disable-checking \
-    	--disable-static --enable-shared --with-system-zlib --disable-debug \
-    	--disable-nls "$@")
+        --enable-languages=c,c++ --target="i686-pc-linux-gnu" \
+        --with-arch="${CPU}" --with-cpu="${CPU}" --with-tune="${CPU}" \
+        --enable-threads=posix --enable-__cxa_atexit --disable-checking \
+        --disable-static --enable-shared --with-system-zlib --disable-debug \
+        --disable-nls "$@")
 }
 
 # gcc-4.8.5
@@ -159,27 +157,81 @@ cfg_gcc_legacy() {
     chk_configure
     CPU="pentium3"
     (set -x; mkdir -p build && cd build && "${SOURCE}/configure" \
-    	--prefix="/opt/gcc485" --enable-languages=c,c++ --disable-multilib \
-	--target="i686-pc-linux-gnu" --disable-bootstrap \
-    	--with-arch="${CPU}" --with-cpu="${CPU}" --with-tune="${CPU}" \
-    	--enable-threads=posix --enable-__cxa_atexit --disable-checking \
-    	--disable-static --enable-shared --with-system-zlib --disable-debug \
-    	--disable-nls "$@")
+        --prefix="/opt/gcc485" --enable-languages=c,c++ --disable-multilib \
+        --target="i686-pc-linux-gnu" --disable-bootstrap \
+        --with-arch="${CPU}" --with-cpu="${CPU}" --with-tune="${CPU}" \
+        --enable-threads=posix --enable-__cxa_atexit --disable-checking \
+        --disable-static --enable-shared --with-system-zlib --disable-debug \
+        --disable-nls "$@")
 }
 
 cfg_generic_autotools() {
     chk_configure
     (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" \
-    	--sysconfdir="${SYSCONF}" --disable-static --enable-shared \
-	--disable-debug --disable-nls "$@")
+        --sysconfdir="${SYSCONF}" --disable-static --enable-shared \
+        --disable-debug --disable-nls "$@")
 }
 
 cfg_generic_meson() {
     chk_meson
     chk_meson_build
     mkdir -p build && cd build && \
-    	"${MESON}" --prefix="${PREFIX}" --sysconfdir="/etc" \
-    	    --buildtype=release --default-library=shared --strip "$@"
+        "${MESON}" --prefix="${PREFIX}" --sysconfdir="/etc" \
+            --buildtype=release --default-library=shared --strip "$@"
+}
+
+# git-2.32.0
+#
+# NOTE:
+#   1. Separately download and keep git-manpages-XYZ.tar.xz in "..".
+#   2. This recipe actually configures *and* installs Git.
+cfg_git() {
+    chk_configure
+    GIT_PREFIX="/opt/git"
+    if [[ -d "${GIT_PREFIX}" ]]; then
+      echo "ERROR: \"${GIT_PREFIX}\" exists - move it aside first."
+      exit 1
+    fi
+    # NOTE: "make install-man" fails as of git-2.1.3 with XML-validation errors.
+    # Directly extract man-pages from a separately-downloaded archive.
+    MANTAR=$(find .. -maxdepth 1 -name git-manpages*tar* -print)
+    if [[ -z "${MANTAR}" ]]; then
+      echo "ERROR: Could not locate the TAR of man-pages for Git."
+      exit 1
+    fi
+
+    (set -x; "${SOURCE}/configure" --prefix="${GIT_PREFIX}" \
+        --with-libpcre2 --with-python="/usr/bin/python3" \
+        --with-shell="/bin/bash" --with-editor="/usr/bin/vim" \
+        --with-pager="/usr/bin/less" --without-tcltk "$@")
+    if [[ "${?}" != "0" ]]; then
+      echo "ERROR: \"configure\" failed."
+      exit 1
+    fi
+
+    read -p "INFO: Ready to compile Git..." unused_1 && time make
+    if [[ "${?}" != "0" ]]; then
+      echo "ERROR: \"make\" failed."
+      exit 1
+    fi
+
+    read -p "INFO: Ready to install Git to \"${GIT_PREFIX}..." unused_2 && \
+        sudo make install
+    if [[ "${?}" != "0" ]]; then
+      echo "ERROR: \"make install\" failed."
+      exit 1
+    fi
+    echo "INFO: Stripping installed binaries..."
+    find "${GIT_PREFIX}" -type d -exec sudo "${HOME}/bin/maybe_strip" \{\} \;
+
+    echo "INFO: Extracting man-pages for Git..."
+    if [[ ! -d "${GIT_PREFIX}/share/man" ]]; then
+        echo "INFO: Creating directory "${GIT_PREFIX}/share/man"."
+        sudo mkdir -p "${GIT_PREFIX}/share/man"
+    fi
+    sudo tar -C "${GIT_PREFIX}/share/man" -xf "${MANTAR}"
+
+    echo "INFO: Done. Git installed in \"${GIT_PREFIX}\"."
 }
 
 # glibc-2.33
@@ -206,11 +258,11 @@ cfg_generic_meson() {
 cfg_glibc() {
     chk_configure
     (set -x; mkdir -p build && cd build && "${SOURCE}/configure" \
-    	--prefix="/usr" --sysconfdir="${SYSCONF}" --enable-shared \
-    	--disable-werror --enable-kernel="2.6.39.4" \
-    	--with-headers="/usr/src/headers-5.14.12/include" \
-    	libc_cv_include_x86_isa_level=no libc_cv_have_x86_lahf_sahf=no \
-    	libc_cv_have_x86_movbe=no "$@")
+        --prefix="/usr" --sysconfdir="${SYSCONF}" --enable-shared \
+        --disable-werror --enable-kernel="2.6.39.4" \
+        --with-headers="/usr/src/headers-5.14.12/include" \
+        libc_cv_include_x86_isa_level=no libc_cv_have_x86_lahf_sahf=no \
+        libc_cv_have_x86_movbe=no "$@")
 }
 
 # glibc-2.25
@@ -223,9 +275,39 @@ cfg_glibc() {
 cfg_glibc_legacy() {
     chk_configure
     (set -x; mkdir -p build && cd build && "${SOURCE}/configure" \
-    	--prefix="/usr" --sysconfdir="${SYSCONF}" --enable-shared \
-    	--disable-werror --enable-kernel="2.6.39.4" \
-    	--with-headers="/usr/src/headers-5.14.12/include" "$@")
+        --prefix="/usr" --sysconfdir="${SYSCONF}" --enable-shared \
+        --disable-werror --enable-kernel="2.6.39.4" \
+        --with-headers="/usr/src/headers-5.14.12/include" "$@")
+}
+
+# go-1.15.15
+#
+# NOTE:
+#   1. This is the last version of Go that supports floating-point arithmetic
+#      in hardware on the Pentium 3 CPU:
+#        https://golang.org/doc/go1.15#386
+#   2. Rename the existing installation of Go to /opt/OLD_go first and then
+#      extract the Go source-code into "/opt/go" with write-access for ${USER}.
+cfg_go() {
+    if [[ ! -f "${PWD}/src/all.bash" ]]; then
+        echo "ERROR: \"./src/all.bash\" not found; not in Go source-directory."
+        exit 1
+    fi
+    if [[ ! -d "/opt/OLD_go" ]]; then
+        echo "ERROR: \"/opt/OLD_go\" not found for bootstrapping Go."
+        exit 1
+    fi
+    export GOROOT_BOOTSTRAP="/opt/OLD_go"
+    export GOROOT="/opt/go"
+    export GOOS="linux"
+    export GOARCH="386"
+    export GO386="387"
+    # This helps reduce the time-outs in tests on slower hardware.
+    export GO_TEST_TIMEOUT_SCALE="10"
+    export CC="/usr/bin/gcc"
+    export CFLAGS="-march=pentium3 -msse -pipe -g0 -O2 -fomit-frame-pointer"
+
+    cd src && ./all.bash
 }
 
 # harfbuzz-2.8.2
@@ -236,10 +318,10 @@ cfg_harfbuzz() {
     chk_meson
     chk_meson_build
     mkdir -p build && cd build && \
-    	"${MESON}" --prefix="${PREFIX}" --sysconfdir="/etc" \
-	    --buildtype=release --default-library=shared --strip \
-	    -Dfreetype=enabled -Dgraphite=enabled -Dtests=disabled \
-	    -Ddocs=disabled
+        "${MESON}" --prefix="${PREFIX}" --sysconfdir="/etc" \
+            --buildtype=release --default-library=shared --strip \
+            -Dfreetype=enabled -Dgraphite=enabled -Dtests=disabled \
+            -Ddocs=disabled
 }
 
 # libdrm-2.4.107
@@ -247,14 +329,14 @@ cfg_libdrm() {
     chk_meson
     chk_meson_build
     mkdir -p build && cd build && \
-    	"${MESON}" --prefix="${PREFIX}" --sysconfdir="/etc" \
-    	    --buildtype=release --default-library=shared --strip \
-    	    -Dintel="false" -Dradeon="false" -Damdgpu="false" -Dnouveau="true" \
-    	    -Dvmwgfx="false" -Domap="false" -Dexynos="false" \
-    	    -Dfreedreno="false" -Dtegra="false" -Dvc4="false" \
-    	    -Detnaviv="false" -Dcairo-tests="false" -Dvalgrind="false" \
-    	    -Dfreedreno-kgsl="false" -Dinstall-test-programs="false" \
-    	    -Dudev="true" "$@"
+        "${MESON}" --prefix="${PREFIX}" --sysconfdir="/etc" \
+            --buildtype=release --default-library=shared --strip \
+            -Dintel="false" -Dradeon="false" -Damdgpu="false" -Dnouveau="true" \
+            -Dvmwgfx="false" -Domap="false" -Dexynos="false" \
+            -Dfreedreno="false" -Dtegra="false" -Dvc4="false" \
+            -Detnaviv="false" -Dcairo-tests="false" -Dvalgrind="false" \
+            -Dfreedreno-kgsl="false" -Dinstall-test-programs="false" \
+            -Dudev="true" "$@"
 }
 
 # mesa-21.2.3
@@ -266,30 +348,78 @@ cfg_mesa() {
     chk_meson
     chk_meson_build
     mkdir -p build && cd build && \
-    	"${MESON}" --prefix="${PREFIX}" --sysconfdir="/etc" \
-    	    --buildtype=release --default-library=shared --strip \
-    	    -Dplatforms="x11" -Degl-native-platform="drm" -Ddri="true" \
-    	    -Ddri3="true" -Dglx="dri" -Ddri-drivers="nouveau" \
-    	    -Dgallium-drivers="nouveau" \
-    	    -Dgallium-vdpau="true" -Dgallium-xvmc="true" -Dgallium-va="true" \
-    	    -Dvulkan-drivers="" -Dshared-glapi="true" -Dgles1="true" \
-    	    -Dgles2="true" -Dopengl="true" -Degl="true" -Dllvm="false" \
-    	    -Dselinux="false" -Dtools="nouveau,xvmc" -Dglx-direct="true" \
-    	    -Dsse2="false" -Dvalgrind="false" -Dlibunwind="disabled" \
-    	    -Dbuild-tests="false"
+        "${MESON}" --prefix="${PREFIX}" --sysconfdir="/etc" \
+            --buildtype=release --default-library=shared --strip \
+            -Dplatforms="x11" -Degl-native-platform="drm" -Ddri="true" \
+            -Ddri3="true" -Dglx="dri" -Ddri-drivers="nouveau" \
+            -Dgallium-drivers="nouveau" \
+            -Dgallium-vdpau="true" -Dgallium-xvmc="true" -Dgallium-va="true" \
+            -Dvulkan-drivers="" -Dshared-glapi="true" -Dgles1="true" \
+            -Dgles2="true" -Dopengl="true" -Degl="true" -Dllvm="false" \
+            -Dselinux="false" -Dtools="nouveau,xvmc" -Dglx-direct="true" \
+            -Dsse2="false" -Dvalgrind="false" -Dlibunwind="disabled" \
+            -Dbuild-tests="false"
+}
+
+# mrxvt-0.5.4
+#
+# NOTE:
+#   1. This is *deliberately* a minimal and light on features build because
+#   that is the whole point of using mrxvt instead of more "modern" terminal-
+#   emulators. For example, we disable Xft because we only care about the
+#   bitmap-font "console8x16" from the old Konsole terminal in KDE 3.5.
+#   2. Add the entries from "share/etc/rxvt.termcap" to "/etc/termcap".
+#   3. Run "sudo tic share/etc/rxvt.terminfo" and "sudo tic
+#   share/etc/mrxvt.terminfo" to install terminfo-entries specific to mrxvt.
+cfg_mrxvt() {
+    chk_configure
+    (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" --sysconfdir="/etc" \
+        --disable-debug --disable-dependency-tracking --enable-256colors \
+        --enable-rxvt-scroll --disable-next-scroll --disable-xterm-scroll \
+        --disable-plain-scroll --disable-sgi-scroll --disable-menubar \
+        --disable-transparency --disable-xpm --disable-jpeg --disable-png \
+        --disable-xft --disable-greek --disable-cjk --disable-text-shadow \
+        --disable-xrender --with-term="rxvt-256color" "$@")
 }
 
 # ncurses-6.2
 cfg_ncurses() {
     chk_configure
     (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" \
-    	--sysconfdir="${SYSCONF}" --without-ada --enable-pc-files \
-    	--with-shared --with-normal --with-cxx-shared --enable-database \
-    	--enable-termcap --enable-sp-funcs --enable-ext-colors \
-    	--enable-ext-mouse --with-term-driver --enable-ext-putwin \
-    	--enable-tcap-names --without-libtool --with-manpage-tbl \
-    	--disable-home-terminfo --enable-symlinks --enable-getcap \
-    	--disable-rpath-hack "$@")
+        --sysconfdir="${SYSCONF}" --without-ada --enable-pc-files \
+        --with-shared --with-normal --with-cxx-shared --enable-database \
+        --enable-termcap --enable-sp-funcs --enable-ext-colors \
+        --enable-ext-mouse --with-term-driver --enable-ext-putwin \
+        --enable-tcap-names --without-libtool --with-manpage-tbl \
+        --disable-home-terminfo --enable-symlinks --enable-getcap \
+        --disable-rpath-hack "$@")
+}
+
+# python-3.8.12
+cfg_python3() {
+    chk_configure
+    (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" \
+        --sysconfdir="${SYSCONF}" --enable-shared --enable-optimizations \
+        --disable-ipv6 --with-system-expat --without-system-ffi \
+        --with-ensurepip="upgrade" "$@")
+}
+
+# vim-8.2.3582
+#
+# NOTE:
+#   1. We directly compile in the checked-out Git-repository.
+#   2. The major-minor versions for Vim are in "src/version.h", while the
+#   patch-level is in "included_patches" in "src/version.c".
+#   3. The following creates a text-oriented (i.e. no GUI or mouse-support)
+#   light-weight build of Vim.
+#   4. Edit "src/feature.h" as needed.
+#   5. Do not forget to clean up the check-out after installation.
+cfg_vim() {
+    chk_configure
+    (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" \
+        --sysconfdir="${SYSCONF}" --disable-gui --disable-gpm --disable-xsmp \
+        --disable-selinux --disable-nls --disable-xim --without-x \
+        --without-gnome --with-features="big" --with-compiledby="${USER}" "$@")
 }
 
 # xine-lib-1.2.11
@@ -309,18 +439,18 @@ cfg_xine_lib() {
     # Get from http://www.mplayerhq.hu/MPlayer/releases/codecs/
     W32CODECS="/usr/local/w32codecs"
     (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" \
-    	--sysconfdir="${SYSCONF}" --disable-static --enable-shared \
-    	--disable-profiling --disable-debug --disable-nls --disable-asan \
+        --sysconfdir="${SYSCONF}" --disable-static --enable-shared \
+        --disable-profiling --disable-debug --disable-nls --disable-asan \
         --disable-iconvtest --disable-ipv6 --disable-wayland --disable-aalib \
         --with-dav1d --disable-dvd --disable-vcd --enable-vpx \
         --enable-optimizations --disable-vdpau --disable-vaapi \
         --with-alsa --disable-oss --without-esound \
-    	--with-freetype --with-fontconfig --enable-antialiasing \
-    	--with-xcb --without-sdl --enable-xvmc --with-xv-path="/usr/lib" \
-    	--with-xvmc-path="/usr/lib" --with-xvmc-lib="XvMCW" \
-    	--with-xxmc-path="/usr/lib" --with-xxmc-lib="XvMCW" \
-    	--enable-w32dll --with-w32-path="${W32CODECS}" \
-    	--enable-real-codecs --with-real-codecs-path="${W32CODECS}" "$@")
+        --with-freetype --with-fontconfig --enable-antialiasing \
+        --with-xcb --without-sdl --enable-xvmc --with-xv-path="/usr/lib" \
+        --with-xvmc-path="/usr/lib" --with-xvmc-lib="XvMCW" \
+        --with-xxmc-path="/usr/lib" --with-xxmc-lib="XvMCW" \
+        --enable-w32dll --with-w32-path="${W32CODECS}" \
+        --enable-real-codecs --with-real-codecs-path="${W32CODECS}" "$@")
 }
 
 # xine-ui-0.99.12
@@ -334,8 +464,8 @@ cfg_xine_ui() {
     export LDFLAGS="-L\"${PREFIX}/lib\""
     export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:/usr/lib/pkgconfig"
     (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" \
-    	--sysconfdir="${SYSCONF}" --disable-debug --disable-nls --enable-xft \
-    	"$@")
+        --sysconfdir="${SYSCONF}" --disable-debug --disable-nls --enable-xft \
+        "$@")
 }
 
 # xorg-server-1.20.13
@@ -344,18 +474,18 @@ cfg_xine_ui() {
 cfg_xorg_server() {
     chk_configure
     (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" \
-    	--sysconfdir="${SYSCONF}" --disable-static --enable-shared \
-    	--with-xkb-output="/var/lib/xkb" --with-log-dir="/var/log" \
-    	--enable-xv --enable-xvmc --enable-pciaccess --disable-ipv6 \
-    	--enable-dri --enable-dri2 --enable-dri3 --enable-libdrm \
-    	--enable-local-transport --enable-unix-transport \
-    	--disable-xselinux --enable-vgahw --enable-vbe \
-    	--enable-config-udev --enable-config-udev-kms --disable-config-hal \
-    	--enable-linux-acpi --disable-suid-wrapper --enable-install-setuid \
-    	--enable-xfree86-utils --enable-glamor --enable-xorg \
-    	--disable-xwayland --disable-xvfb --disable-xnest --disable-xquartz \
-    	--without-systemd-daemon --disable-systemd-logind --disable-docs \
-	--disable-unit-tests --disable-debug "$@")
+        --sysconfdir="${SYSCONF}" --disable-static --enable-shared \
+        --with-xkb-output="/var/lib/xkb" --with-log-dir="/var/log" \
+        --enable-xv --enable-xvmc --enable-pciaccess --disable-ipv6 \
+        --enable-dri --enable-dri2 --enable-dri3 --enable-libdrm \
+        --enable-local-transport --enable-unix-transport \
+        --disable-xselinux --enable-vgahw --enable-vbe \
+        --enable-config-udev --enable-config-udev-kms --disable-config-hal \
+        --enable-linux-acpi --disable-suid-wrapper --enable-install-setuid \
+        --enable-xfree86-utils --enable-glamor --enable-xorg \
+        --disable-xwayland --disable-xvfb --disable-xnest --disable-xquartz \
+        --without-systemd-daemon --disable-systemd-logind --disable-docs \
+        --disable-unit-tests --disable-debug "$@")
 }
 
 # xorg-server-1.12.4
@@ -371,24 +501,24 @@ cfg_xorg_server() {
 cfg_xorg_server_legacy() {
     chk_configure
     (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" \
-    	--sysconfdir="${SYSCONF}" --disable-static --enable-shared \
-    	--with-xkb-output="/var/lib/xkb" --with-log-dir="/var/log" \
-    	--enable-xaa --enable-pciaccess --disable-ipv6 --disable-xselinux \
-    	--enable-dri --enable-dri2 --enable-libdrm --enable-install-setuid \
-    	--enable-local-transport --enable-unix-transport \
-    	--enable-config-udev --disable-config-dbus --disable-config-hal \
-    	--enable-xorg --disable-dmx --disable-xvfb --disable-xnest \
-    	--disable-xquartz --enable-xv --enable-xvmc --disable-debug \
-    	--enable-install-libxf86config --enable-xfree86-utils \
-    	--disable-docs --disable-devel-docs --disable-unit-tests "$@")
+        --sysconfdir="${SYSCONF}" --disable-static --enable-shared \
+        --with-xkb-output="/var/lib/xkb" --with-log-dir="/var/log" \
+        --enable-xaa --enable-pciaccess --disable-ipv6 --disable-xselinux \
+        --enable-dri --enable-dri2 --enable-libdrm --enable-install-setuid \
+        --enable-local-transport --enable-unix-transport \
+        --enable-config-udev --disable-config-dbus --disable-config-hal \
+        --enable-xorg --disable-dmx --disable-xvfb --disable-xnest \
+        --disable-xquartz --enable-xv --enable-xvmc --disable-debug \
+        --enable-install-libxf86config --enable-xfree86-utils \
+        --disable-docs --disable-devel-docs --disable-unit-tests "$@")
 }
 
 # xterm-369
 cfg_xterm() {
     chk_configure
     (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" \
-    	--sysconfdir="${SYSCONF}" --with-x --enable-256-color \
-    	--enable-freetype --with-app-defaults="/etc/X11/app-defaults" "$@")
+        --sysconfdir="${SYSCONF}" --with-x --enable-256-color \
+        --enable-freetype --with-app-defaults="/etc/X11/app-defaults" "$@")
 }
 
 #
@@ -397,88 +527,103 @@ cfg_xterm() {
 
 while getopts ":c:n:p:s:" o; do
     case "${o}" in
-	c)
-	    SYSCONF="${OPTARG}"
-	    ;;
-	n)
-	    NAME="${OPTARG}"
-	    ;;
-	p)
-	    PREFIX="${OPTARG}"
-	    ;;
-	s)
-	    SOURCE="${OPTARG}"
-	    ;;
-	*)
-	    usage
-	    ;;
+        c)
+            SYSCONF="${OPTARG}"
+            ;;
+        n)
+            NAME="${OPTARG}"
+            ;;
+        p)
+            PREFIX="${OPTARG}"
+            ;;
+        s)
+            SOURCE="${OPTARG}"
+            ;;
+        *)
+            usage
+            ;;
     esac
 done
 shift "$((OPTIND - 1))"
 
 case "${NAME}" in
     binutils)
-	cfg_binutils "$@"
-	;;
+        cfg_binutils "$@"
+        ;;
     cairo)
-	cfg_cairo "$@"
-	;;
+        cfg_cairo "$@"
+        ;;
     dbus)
-	cfg_dbus "$@"
-	;;
+        cfg_dbus "$@"
+        ;;
     freetype)
-	cfg_freetype "$@"
-	;;
+        cfg_freetype "$@"
+        ;;
     ffmpeg)
-	cfg_ffmpeg "$@"
-	;;
+        cfg_ffmpeg "$@"
+        ;;
     gcc)
-	cfg_gcc "$@"
-	;;
+        cfg_gcc "$@"
+        ;;
     gcc_legacy)
-	cfg_gcc_legacy "$@"
-	;;
+        cfg_gcc_legacy "$@"
+        ;;
     generic_autotools)
-	cfg_generic_autotools "$@"
-	;;
+        cfg_generic_autotools "$@"
+        ;;
     generic_meson)
-	cfg_generic_meson "$@"
-	;;
+        cfg_generic_meson "$@"
+        ;;
+    git)
+        cfg_git "$@"
+        ;;
     glibc)
-	cfg_glibc "$@"
-	;;
+        cfg_glibc "$@"
+        ;;
     glibc_legacy)
-	cfg_glibc_legacy "$@"
-	;;
+        cfg_glibc_legacy "$@"
+        ;;
+    go)
+        cfg_go "$@"
+        ;;
     harfbuzz)
-	cfg_harfbuzz "$@"
-	;;
+        cfg_harfbuzz "$@"
+        ;;
     libdrm)
-	cfg_libdrm "$@"
-	;;
+        cfg_libdrm "$@"
+        ;;
     mesa)
-	cfg_mesa "$@"
-	;;
+        cfg_mesa "$@"
+        ;;
+    mrxvt)
+        cfg_mrxvt "$@"
+        ;;
     ncurses)
-	cfg_ncurses "$@"
-	;;
+        cfg_ncurses "$@"
+        ;;
+    python3)
+        cfg_python3 "$@"
+        ;;
+    vim)
+        cfg_vim "$@"
+        ;;
     xine_lib)
-	cfg_xine_lib "$@"
-	;;
+        cfg_xine_lib "$@"
+        ;;
     xine_ui)
-	cfg_xine_ui "$@"
-	;;
+        cfg_xine_ui "$@"
+        ;;
     xorg_server)
-	cfg_xorg_server "$@"
-	;;
+        cfg_xorg_server "$@"
+        ;;
     xorg_server_legacy)
-	cfg_xorg_server_legacy "$@"
-	;;
+        cfg_xorg_server_legacy "$@"
+        ;;
     xterm)
-	cfg_xterm "$@"
-	;;
+        cfg_xterm "$@"
+        ;;
     *)
-    	echo "ERROR: Unknown package-name \"${NAME}\"."
-    	exit 1
-	;;
+        echo "ERROR: Unknown package-name \"${NAME}\"."
+        exit 1
+        ;;
 esac
