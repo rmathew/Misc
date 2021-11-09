@@ -174,7 +174,7 @@ Plugin {
             image = /usr/share/pixmaps/mrxvt.png
             tooltip = Terminal
             # Make the window a bit wider to accommodate line-numbers in Vim.
-            action = /usr/bin/mrxvt -tn rxvt-256color -g 85x60+42+0
+            action = /usr/bin/mrxvt -g 85x60+42+0
         }
 	button {
             image = /opt/firefox/browser/icons/mozicon128.png

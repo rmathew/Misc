@@ -14,8 +14,8 @@ export HISTFILESIZE=8192
 
 # Show the 20 most "recently-downloaded" files in the given directory.
 recdld() {
-  LS_DIR=${1-$PWD}
-  /bin/ls --color=always -lota "${LS_DIR}" | sed -n '2,21p'
+  local LS_DIR="${1-$PWD}"
+  /bin/ls --color=always -lota "${LS_DIR}" | /usr/bin/sed -n '2,21p'
   /bin/echo -n '[m'  # ANSI escape-sequence to reset the terminal-colors.
 }
 
@@ -42,7 +42,7 @@ if [[ "${TERM}" != "linux" ]]
 then
     eval `/usr/bin/dircolors ${HOME}/Misc/rcfiles/solarized_dircolors`
 fi
-alias ls='/bin/ls ${LS_OPTIONS}'
+alias ls='/bin/ls --color=auto'
 
 alias switchoff='sudo /sbin/shutdown -h now; exit'
 

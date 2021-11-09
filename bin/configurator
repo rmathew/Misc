@@ -404,6 +404,19 @@ cfg_python3() {
         --with-ensurepip="upgrade" "$@")
 }
 
+# libsdl-2.0.16
+cfg_sdl2() {
+    chk_configure
+    (set -x; "${SOURCE}/configure" --prefix="${PREFIX}" \
+        --sysconfdir="${SYSCONF}" --enable-shared --disable-static \
+        --enable-assertions="disabled" --enable-ssemath --disable-mmx \
+        --disable-3dnow --enable-sse --disable-sse2 --disable-sse3 \
+        --disable-oss --enable-alsa --disable-jack --disable-esd \
+        --disable-pulseaudio --disable-video-kmsdrm --disable-video-wayland \
+        --enable-video-opengl --disable-video-opengles --disable-video-vulkan \
+        "$@")
+}
+
 # vim-8.2.3582
 #
 # NOTE:
@@ -603,6 +616,9 @@ case "${NAME}" in
         ;;
     python3)
         cfg_python3 "$@"
+        ;;
+    sdl2)
+        cfg_sdl2 "$@"
         ;;
     vim)
         cfg_vim "$@"

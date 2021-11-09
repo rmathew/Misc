@@ -1,5 +1,46 @@
-ranjit.xcf is a GIMP file used to create the "Ranjit Logo" in Devanagari.
+ranjit.xcf
+----------
+The GIMP file used to create the "Ranjit Logo" in Devanagari.
 
-console8x16.bdf is the BDF "source" for the console8x6 bitmapped font from
-Konsole (in KDE 3.5.x) as created/compiled by Lars Doelle. Use bdftopcf to
-compile it to PCF.
+console8x16.bdf
+---------------
+The BDF source for the OldSkool "console8x16" bitmapped font from Konsole (in
+KDE 3.5.x) as created/compiled by Lars Doelle. I *love* this font due to its
+near-perfect glyphs at low-resolutions (IMO) and my nostalgia for old IBM PCs.
+
+Use "bdftopcf" to compile the BDF source to a PCF font for X11:
+
+  bdftopcf -t -o console8x16.pcf console8x16.bdf && gzip --best console8x16.pcf
+
+Copy this over to an X11 fonts-directory (e.g. "/usr/lib/X11/fonts/misc") and
+then run "mkfontdir" as root on that directory.
+
+The original file can be found in the "kdebase-3.5.10" sources:
+
+  https://download.kde.org/Attic/3.5.10/src/kdebase-3.5.10.tar.bz2
+
+as "kdebase-3.5.10/konsole/fonts/console8x16.bdf".
+
+The Trinity Desktop Environment (TDE) preserves a copy of this file from KDE
+3.5.x here:
+
+  https://git.trinitydesktop.org/cgit/tdebase/tree/konsole/fonts/console8x16.bdf
+
+The source-file should have the MD5-checksum "b961b8a1f45973c637a36542db632b29"
+everywhere.
+
+mconsole8x16.bdf
+----------------
+A variant of "console8x16" above with some box-drawing characters:
+
+  https://en.wikipedia.org/wiki/Box-drawing_character#Unix,_CP/M,_BBS
+
+patched in at the places in the DEC VT100 Alternate Character Set (ACS):
+
+  https://en.wikipedia.org/wiki/DEC_Special_Graphics
+
+where mrxvt (sadly) expects them to be. Note that "console8x16" *does* have
+these characters, just not at the code-point `ascii_code - 0x5F` in the font
+where mrxvt expects to find them. On the other hand, xterm and Konsole use a
+fall-back mechanism for locating these box-drawing characters that works
+correctly with "console8x16".
