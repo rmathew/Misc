@@ -1,0 +1,13 @@
+This directory contains a few patches to make legacy software work on
+a modern Linux system. See the individual patches for more details.
+
+nvidia_96xx_legacy_kernel-3.19.8.patch
+--------------------------------------
+This patch makes the Linux kernel-module from the "legacy" Nvidia 96.43.23
+driver for 32-bit Linux work with Linux kernel 3.19.8.
+
+xmbdfed-4.7-linux.patch
+-----------------------
+This patch makes the XmBDFEditor 4.7 sources compile under a modern Linux
+system. You can then use the application to create or edit bitmapped graphics
+fonts in the BDF file-format.

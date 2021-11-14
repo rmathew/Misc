@@ -1,0 +1,152 @@
+XmBDFEditor was a Motif-based application to create or edit bitmapped graphics
+fonts in the BDF file-format:
+
+  https://en.wikipedia.org/wiki/Glyph_Bitmap_Distribution_Format
+
+It is hard to find these days and even when you do, it does not compile
+properly on a modern Linux system. I was able to get a copy via the Web
+Archive:
+
+  https://web.archive.org/web/20070203224716if_/http://crl.nmsu.edu:80/~mleisher/xmbdfed-4.7.tar.bz2
+
+and build it to link with Lesstif (a Motif reimplementation), but only after
+applying the following patch.
+
+Index: bdfgname.c
+===================================================================
+--- bdfgname.c	2021-11-08 21:47:51.000000000 +0530
++++ bdfgname.c	2021-11-08 21:51:36.000000000 +0530
+@@ -47,9 +47,9 @@ static unsigned long adobe_names_used;
+ 
+ static int
+ #ifdef __STDC__
+-getline(FILE *in, char *buf, int limit)
++bdf_getline(FILE *in, char *buf, int limit)
+ #else
+-getline(in, buf, limit)
++bdf_getline(in, buf, limit)
+ FILE *in;
+ char *buf;
+ int limit;
+@@ -99,11 +99,11 @@ FILE *in;
+ 
+     while (!feof(in)) {
+         pos = ftell(in);
+-        (void) getline(in, buf, 256);
++        (void) bdf_getline(in, buf, 256);
+         while (!feof(in) && (buf[0] == 0 || buf[0] == '#')) {
+             buf[0] = 0;
+             pos = ftell(in);
+-            (void) getline(in, buf, 256);
++            (void) bdf_getline(in, buf, 256);
+         }
+ 
+         if (buf[0] == 0)
+@@ -170,11 +170,11 @@ FILE *in;
+ 
+     while (!feof(in)) {
+         pos = ftell(in);
+-        (void) getline(in, buf, 256);
++        (void) bdf_getline(in, buf, 256);
+         while (!feof(in) && (buf[0] == 0 || buf[0] == '#')) {
+             buf[0] = 0;
+             pos = ftell(in);
+-            (void) getline(in, buf, 256);
++            (void) bdf_getline(in, buf, 256);
+         }
+ 
+         c = _bdf_atol(buf, 0, 16);
+Index: Makefile
+===================================================================
+--- Makefile	2021-11-08 21:45:47.000000000 +0530
++++ Makefile	2021-11-08 21:52:09.000000000 +0530
+@@ -22,8 +22,8 @@
+ #
+ # $Id: Makefile,v 1.13 2004/02/17 15:24:06 mleisher Exp $
+ #
+-CC = gcc
+-CFLAGS = -g -Wall
++CC = /usr/bin/gcc
++CFLAGS = -g0 -O2 -fomit-frame-pointer -Wall
+ 
+ OTHER = README CHANGES COPYRIGHTS Makefile Imakefile.lesstif Project.tmpl \
+         xmbdfedrc xmbdfed.man
+@@ -46,17 +46,17 @@ OBJS = FGrid.o GEdit.o GEditTB.o GTest.o
+ # Uncomment these if you have the FreeType library and want to use it to
+ # import OpenType fonts.
+ #
+-#FTYPE_INCS = -I/usr/local/include
+-#FTYPE_LIBS = -L/usr/local/lib -lfreetype
+-#FTYPE_DEFS = -DHAVE_FREETYPE
++FTYPE_INCS = -I/usr/include/freetype2
++FTYPE_LIBS = -L/usr/lib -lfreetype
++FTYPE_DEFS = -DHAVE_FREETYPE
+ 
+ #
+ # Uncomment these if you have the hbf.h and hbf.c files in the current
+ # directory and the patch has been applied.
+ #
+-#HBF_HDRS = hbf.h
+-#HBF_OBJS = hbf.o
+-#HBF_DEFS = -DHAVE_HBF
++HBF_HDRS = hbf.h
++HBF_OBJS = hbf.o
++HBF_DEFS = -DHAVE_HBF
+ 
+ #
+ # Specify the various defines needed for HBF fonts.  If you do not have GNU
+@@ -89,8 +89,8 @@ LIBS = -R/usr/openwin/lib -R/usr/dt/lib 
+ #
+ # Uncomment these for Linux.
+ #
+-#INCS = -I/usr/X11/include $(FTYPE_INCS)
+-#LIBS = -L/usr/X11/lib -lXm -lXpm -lXmu -lXt -lXext -lX11 -lSM -lICE $(FTYPE_LIBS)
++INCS = -I/usr/X11/include $(FTYPE_INCS)
++LIBS = -L/usr/X11/lib -lXm -lXpm -lXmu -lXt -lXext -lX11 -lSM -lICE $(FTYPE_LIBS)
+ 
+ #
+ # Uncomment these for HPUX.
+Index: setup.c
+===================================================================
+--- setup.c	2021-11-08 21:53:49.000000000 +0530
++++ setup.c	2021-11-08 21:54:07.000000000 +0530
+@@ -92,7 +92,7 @@ typedef struct {
+     Boolean saved;
+ } MXFEditorSetup;
+ 
+-static unsigned long active_editor;
++static unsigned long su_active_editor;
+ static MXFEditorSetup setup;
+ static MXFEditorOtherOptions other;
+ 
+@@ -122,7 +122,7 @@ XtPointer client_data, call_data;
+     char *s;
+     Arg av[1];
+ 
+-    ed = &editors[active_editor];
++    ed = &editors[su_active_editor];
+ 
+     xmbdfed_opts.overwrite_mode =
+         (XmToggleButtonGetState(setup.overwrite) == True) ? 1 : 0;
+@@ -1351,7 +1351,7 @@ XtPointer client_data, call_data;
+     /*
+      * Set the active editor.
+      */
+-    active_editor = (unsigned long) client_data;
++    su_active_editor = (unsigned long) client_data;
+ 
+     XtManageChild(setup.form);
+     XtPopup(setup.shell, XtGrabNone);
+Index: FGrid.c
+===================================================================
+--- FGrid.c	2004-02-09 05:28:59.000000000 +0530
++++ FGrid.c	2021-11-08 21:45:37.000000000 +0530
+@@ -4267,7 +4267,7 @@ Widget w;
+     pi->sel_start = pi->sel_end = cb.start;
+     Select(pi->sel_start, pi->selmap);
+ 
+-    _XmuttFGridDrawCells(fw, pi->sel_start, pi->sel_end, True, True);
++    _XmuttFGridDrawCells(fw, cb.start, cb.end, True, True);
+ 
+     /*
+      * Call the modified callback.
