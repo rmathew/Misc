@@ -126,10 +126,10 @@ Plugin {
         }
         separator {
         }
-	menu {  
-	    name = Computer
-	    icon = default_32
-            
+        menu {
+            name = Computer
+            icon = default_32
+
             item {
                 name = Lock Display
                 icon = gnome-lockscreen
@@ -176,15 +176,25 @@ Plugin {
             # Make the window a bit wider to accommodate line-numbers in Vim.
             action = /usr/bin/mrxvt -g 85x60+42+0
         }
-	button {
+        button {
             image = /opt/firefox/browser/icons/mozicon128.png
             tooltip = Web Browser
             action = /opt/firefox/firefox
-    	}
+        }
+        button {
+            image = /usr/share/icons/hicolor/scalable/apps/leafpad.svg
+            tooltip = Text Editor
+            action = /usr/bin/leafpad
+        }
         button {
             image = /usr/share/audacious/images/playlist.png
             tooltip = Music Player
             action = /usr/bin/audacious
+        }
+        button {
+            image = /usr/share/icons/hicolor/256x256/apps/gimp.png
+            tooltip = Image Manipulation
+            action = /usr/bin/gimp
         }
     }
 }
@@ -336,9 +346,9 @@ Plugin {
     type = launchbar
     config {
         button {
-	    name = Shutdown
-	    icon = gnome-session-halt
-	    action = /home/rmathew/bin/shutit
+            name = Shutdown
+            icon = gnome-session-halt
+            action = /home/rmathew/bin/shutit
             tooltip = Shut down or reboot
         }
     }

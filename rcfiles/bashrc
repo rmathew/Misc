@@ -43,6 +43,7 @@ then
     eval `/usr/bin/dircolors ${HOME}/Misc/rcfiles/solarized_dircolors`
 fi
 alias ls='/bin/ls --color=auto'
+alias grep='/bin/grep --color=auto'
 
 alias switchoff='sudo /sbin/shutdown -h now; exit'
 
