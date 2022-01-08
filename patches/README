@@ -10,4 +10,6 @@ xmbdfed-4.7-linux.patch
 -----------------------
 This patch makes the XmBDFEditor 4.7 sources compile under a modern Linux
 system. You can then use the application to create or edit bitmapped graphics
-fonts in the BDF file-format.
+fonts in the BDF file-format. Note that xmbdfed was later replaced by gbdfed:
+  http://sofia.nmsu.edu/~mleisher/Software/gbdfed/
+that is based on Gtk+ instead of Motif and provides more features.

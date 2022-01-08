@@ -6,31 +6,25 @@
 # To recursively strip everything in a directory:
 #   find /path/to/directory -type d -exec maybe_strip \{\} \;
 
-if [[ -z "$1" ]]
-then
+if [[ -z "$1" ]]; then
     echo ERROR: Missing paths to target files or directories.
     exit 1
 fi
 
 maybe_strip_files() {
-    for f in "$@"
-    do
+    for f in "$@"; do
 	/usr/bin/file "$f" | /usr/bin/grep "not stripped$" >/dev/null
-	if [[ "$?" == "0" ]]
-	then
+	if [[ "$?" == "0" ]]; then
 	    echo Stripping \"$f\"...
-	    /usr/bin/strip "$f"
+	    /usr/bin/strip --strip-unneeded "$f"
 	fi
     done
 }
 
-for i in "$@"
-do
-    if [[ -d "$i" ]]
-    then
+for i in "$@"; do
+    if [[ -d "$i" ]]; then
     	maybe_strip_files "$i"/*
-    elif [[ -f "$i" ]]
-    then
+    elif [[ -f "$i" ]]; then
     	maybe_strip_files "$i"
     else
     	echo ERROR: \"$i\" is neither a file nor a directory.

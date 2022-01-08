@@ -3,6 +3,8 @@
 
 set -o vi
 
+export PATH="/bin:/usr/bin:${HOME}/bin"
+
 # Speed things up a little.
 export LC_ALL=C
 export LANG=C
@@ -18,12 +20,6 @@ recdld() {
   /bin/ls --color=always -lota "${LS_DIR}" | /usr/bin/sed -n '2,21p'
   /bin/echo -n '[m'  # ANSI escape-sequence to reset the terminal-colors.
 }
-
-# Additional PATH components.
-if [[ ! "${PATH}" =~ ".*${HOME}/bin.*" ]]
-then
-  export PATH="${PATH}:${HOME}/bin"
-fi
 
 # Change the prompt to include the current working directory.
 export PS1="\w > "

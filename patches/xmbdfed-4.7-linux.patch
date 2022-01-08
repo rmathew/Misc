@@ -4,13 +4,20 @@ fonts in the BDF file-format:
   https://en.wikipedia.org/wiki/Glyph_Bitmap_Distribution_Format
 
 It is hard to find these days and even when you do, it does not compile
-properly on a modern Linux system. I was able to get a copy via the Web
-Archive:
+properly on a modern Linux system. I was able to get a copy of the v4.7 sources
+via the Internet Archive Wayback Machine:
 
+  http://web.archive.org/web/20090227090450/http://crl.nmsu.edu/~mleisher/xmbdfed.html
   https://web.archive.org/web/20070203224716if_/http://crl.nmsu.edu:80/~mleisher/xmbdfed-4.7.tar.bz2
 
 and build it to link with Lesstif (a Motif reimplementation), but only after
 applying the following patch.
+
+Note that xmbdfed was later replaced by gbdfed:
+
+  http://sofia.nmsu.edu/~mleisher/Software/gbdfed/
+
+that is based on Gtk+ instead of Motif and provides more features.
 
 Index: bdfgname.c
 ===================================================================

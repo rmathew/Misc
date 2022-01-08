@@ -187,9 +187,9 @@ Plugin {
             action = /usr/bin/leafpad
         }
         button {
-            image = /usr/share/audacious/images/playlist.png
+            image = /opt/mm/share/icons/hicolor/scalable/apps/audacious.svg
             tooltip = Music Player
-            action = /usr/bin/audacious
+            action = /opt/mm/bin/audacious
         }
         button {
             image = /usr/share/icons/hicolor/256x256/apps/gimp.png

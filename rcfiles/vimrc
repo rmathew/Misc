@@ -105,3 +105,8 @@ autocmd BufNewFile,BufReadPre *.xml setlocal expandtab softtabstop=-1
 autocmd BufNewFile,BufReadPre *.y setlocal expandtab softtabstop=-1
 " Go is a special snowflake that needs TABs - make it appear less gross.
 autocmd BufNewFile,BufReadPre *.go setlocal noexpandtab tabstop=4
+
+" Display TABs and trailing spaces using the NonText highlighting.
+" TIP: Use 'Ctrl-k>>' for '»' and 'Ctrl-k.M' for '·'.
+set list
+set listchars=tab:»·,trail:·
