@@ -1,0 +1,16 @@
+You will need a C compiler that supports the C99 standard.
+
+If you have CMake (https://cmake.org), you can use something like the
+following to build this program using your favorite build-tool (Make, Ninja,
+etc.):
+
+    cmake -S . -B build
+    cmake --build build
+    cmake --install build --prefix=/foo/bar
+
+Alternatively, you can use a POSIX-compliant Make tool to build this:
+
+    make
+    make PREFIX=/foo/bar install
+
+after updating the config.mk file, if needed.
