@@ -1,0 +1,93 @@
+#!/bin/bash
+#
+# A wrapper around the "cmark" tool (https://github.com/commonmark/cmark/) that
+# generates HTML documents from CommonMark Markdown documents, using an
+# appropriate style-sheet to improve its appearance.
+#
+# To use GitHub-flavored Markdown, which extends CommonMark with support for
+# tables, etc. and is also supported by GitLab, use "cmark-gfm"
+# (https://github.com/github/cmark-gfm/) instead using the "-g" flag.
+#
+# To save the HTML into a file, use the "-o" flag or just redirect the output.
+#
+# Copy a suitable style-sheet into a CSS file to be used with the output of
+# this script. The default is "md2html.css", which can be overridden using the
+# "-s" flag.
+#
+# For example, for GitHub-style HTML pages, use something
+# like the following:
+#   1. https://raw.githubusercontent.com/KrauseFx/markdown-to-html-github-style/master/style.css
+#   2. https://raw.githubusercontent.com/sindresorhus/github-markdown-css/main/github-markdown.css
+#
+# (NOTE: The "markdown-body" class is only useful with #2 and is ignored by #1.)
+#
+run_md2html() {
+    cat << @EOF
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="${MD2HTML_CSS}">
+<style>
+.markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+}
+
+@media (max-width: 767px) {
+    .markdown-body {
+        padding: 15px;
+    }
+}
+</style>
+</head><body>
+<article class="markdown-body">
+@EOF
+
+    ${MD2HTML} --to html "${1}"
+
+    cat << @EOF
+</article>
+</body></html>
+@EOF
+}
+
+MD2HTML="cmark"
+OUTFILE="/dev/stdout"
+MD2HTML_CSS="md2html.css"
+while getopts "go:s:" o; do
+    case "${o}" in
+        g)
+            MD2HTML="cmark-gfm"
+            ;;
+        o)
+            OUTFILE="${OPTARG}"
+            ;;
+        s)
+            MD2HTML_CSS="${OPTARG}"
+            ;;
+        *)
+            echo -e "ERROR: Unknown option.\n"
+            exit 1
+            ;;
+    esac
+done
+shift "$((OPTIND - 1))"
+
+if ! command -v "${MD2HTML}" >/dev/null; then
+    echo -e "ERROR: Unable to run '${MD2HTML}'.\n"
+    exit 1
+fi
+
+if [[ -z "${1}" ]]; then
+    echo -e "ERROR: Missing input file.\n"
+    exit 1
+fi
+if [[ ! -r "${1}" ]]; then
+    echo -e "ERROR: Unable to read input file '${1}'.\n"
+    exit 1
+fi
+set -euo pipefail
+
+run_md2html "${1}" > "${OUTFILE}"

@@ -1,9 +1,11 @@
+# ${HOME}/.gitconfig is a symbolic link to this file.
 [user]
   name = Ranjit Mathew
   email = rmathew@gmail.com
 
 [core]
   editor = "/usr/bin/vim -X"
+  excludesFile = /home/rmathew/.config/git/ignore
 
 [format]
   pretty = oneline

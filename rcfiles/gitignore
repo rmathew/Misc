@@ -1,0 +1,7 @@
+# ${HOME}/.config/git/ignore is a symbolic link to this file.
+
+# Ignore Vim's swap files.
+**/*.swp
+
+# Ignore object files.
+**/*.o

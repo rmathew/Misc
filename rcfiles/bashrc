@@ -49,7 +49,7 @@ alias mkold='touch -t 200801010000'
 alias git="${HOME}/Misc/bin/git"
 alias ff='LD_LIBRARY_PATH=/opt/mm/lib /opt/mm/bin/ffplay'
 alias xine='LD_LIBRARY_PATH=/opt/mm/lib /opt/mm/bin/xine'
-alias mu='/usr/local/mupdf/bin/mupdf-x11'
+alias mu='/usr/local/mupdf/bin/mupdf-x11 -r 86'
 
 # Setup for Java programs.
 export JAVA_HOME="/usr/local/jdk"
