@@ -189,7 +189,7 @@ Plugin {
         button {
             image = /opt/mm/share/icons/hicolor/scalable/apps/audacious.svg
             tooltip = Music Player
-            action = /opt/mm/bin/audacious
+            action = /home/rmathew/bin/audacious
         }
         button {
             image = /usr/share/icons/hicolor/256x256/apps/gimp.png

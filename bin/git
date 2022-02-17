@@ -12,4 +12,4 @@ if [ ! -x "${GIT_PREFIX}/bin/git" ]; then
     exit 1
 fi
 export MANPATH="${GIT_PREFIX}/share/man:${MANPATH}"
-"${GIT_PREFIX}/bin/git" --no-pager "$@"
+"${GIT_PREFIX}/bin/git" "$@"
