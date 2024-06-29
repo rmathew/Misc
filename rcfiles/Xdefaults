@@ -8,6 +8,14 @@ XTerm*termName: xterm-256color
 XTerm*saveLines: 8192
 XTerm*renderFont: true
 XTerm*font: -misc-console-medium-r-normal--16-160-72-72-c-80-iso10646-1
-XTerm*foreground: gray76
-XTerm*background: gray6
+!
+! A simple dark mode color-scheme.
+! XTerm*foreground: gray76
+! XTerm*background: gray6
+!
+! Align with the PaperColor Light color-scheme.
+! TODO: Add more color-values to better align with PaperColor Light.
+XTerm*foreground: rgb:44/44/44
+XTerm*background: rgb:ee/ee/ee
+!
 XTerm*cursorBlink: true

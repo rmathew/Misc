@@ -66,7 +66,8 @@ let g:PaperColor_Theme_Options = {
 
 " Use PaperColor Light theme (https://github.com/NLKNguyen/papercolor-theme)
 " almost everywhere, except where we expect a dark background.
-if &term == "linux" || &term == "xterm" || &term == "xterm-256color"
+if &term == "linux"
+    set background=dark
     colorscheme desert
 else
     set background=light
@@ -106,7 +107,10 @@ autocmd BufNewFile,BufReadPre *.y setlocal expandtab softtabstop=-1
 " Go is a special snowflake that needs TABs - make it appear less gross.
 autocmd BufNewFile,BufReadPre *.go setlocal noexpandtab tabstop=4
 
-" Display TABs and trailing spaces using the NonText highlighting.
+" Display TABs and trailing spaces using the NonText highlighting
+" (but only when using mrxvt and ISO-Latin-1 encoding).
 " TIP: Use 'Ctrl-k>>' for '»' and 'Ctrl-k.M' for '·'.
-set list
-set listchars=tab:»·,trail:·
+if &term == "mrxvt-256color" || &term == "mrxvt"
+    set list
+    set listchars=tab:»·,trail:·
+endif
